@@ -12,11 +12,16 @@ interface DeleteModalProps {
 export function DeleteModal({ open, url, onClose }: DeleteModalProps) {
   const [deleted, setDeleted] = useState(false);
 
-  if (!open) return null;
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open, onClose]);
 
-  const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Escape") onClose();
-  };
+  if (!open) return null;
 
   const handleDelete = () => {
     setDeleted(true);
