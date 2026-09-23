@@ -22,7 +22,14 @@ export function QrModal({ open, url, onClose }: QrModalProps) {
       width: 512,
       margin: 1,
       color: { dark: "#1e293b", light: "#ffffff" },
-    }).catch(() => undefined);
+    })
+      .then(() => {
+        // La librería fija el tamaño con estilos en línea; lo devolvemos al
+        // control del diseño para que el QR escale de forma responsiva.
+        canvas.style.width = "";
+        canvas.style.height = "";
+      })
+      .catch(() => undefined);
   }, [open, url]);
 
   useEffect(() => {
