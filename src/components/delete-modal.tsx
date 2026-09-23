@@ -35,7 +35,6 @@ export function DeleteModal({ open, url, onClose }: DeleteModalProps) {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-4 backdrop-blur-sm"
       onClick={onClose}
-      onKeyDown={handleKeyDown}
     >
       <section
         role="alertdialog"
