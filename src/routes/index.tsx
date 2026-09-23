@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Check, LockKeyhole, Plus, Tag, X } from "lucide-react";
+import { ArrowRight, Check, LockKeyhole, Plus, QrCode, Tag, X } from "lucide-react";
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 
+import { QrModal } from "@/components/qr-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
