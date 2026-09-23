@@ -149,8 +149,8 @@ function Index() {
               {submitted ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Enlace listo para crear</span> : null}
             </p>
             <div className="flex flex-col-reverse gap-3 sm:flex-row">
-              <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setGeneralOpen(true)}>
-                <PencilLine className="size-4" /> Editar (General)
+              <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setEditOpen(true)}>
+                <PencilLine className="size-4" /> Editar enlace
               </Button>
               <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setQrOpen(true)}>
                 <QrCode className="size-4" /> Ver código QR
@@ -167,7 +167,7 @@ function Index() {
         </form>
       </section>
 
-      <GeneralModal open={generalOpen} url={shortlinkUrl} onClose={() => setGeneralOpen(false)} />
+      <EditModal open={editOpen} url={shortlinkUrl} onClose={() => setEditOpen(false)} />
       <QrModal open={qrOpen} url={shortlinkUrl} onClose={() => setQrOpen(false)} />
       <DeleteModal open={deleteOpen} url={shortlinkUrl} onClose={() => setDeleteOpen(false)} />
     </main>
