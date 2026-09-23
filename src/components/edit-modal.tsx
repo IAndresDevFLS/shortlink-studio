@@ -44,6 +44,15 @@ interface EditModalProps {
 export function EditModal({ open, url, onClose }: EditModalProps) {
   const [section, setSection] = useState<EditSection>("general");
 
+  const moveSection = (current: EditSection, direction: 1 | -1) => {
+    const currentIndex = SECTIONS.findIndex(({ id }) => id === current);
+    const nextIndex = (currentIndex + direction + SECTIONS.length) % SECTIONS.length;
+    const nextSection = SECTIONS[nextIndex];
+    if (!nextSection) return;
+    setSection(nextSection.id);
+    document.getElementById(`tab-${nextSection.id}`)?.focus();
+  };
+
   useEffect(() => {
     if (!open) return;
     setSection("general");
@@ -67,7 +76,7 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-title"
-        className="modal-enter relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated"
+        className="modal-enter relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated"
       >
         <header className="flex items-center justify-between border-b border-border px-6 py-5 sm:px-8">
           <div className="flex items-center gap-3">
@@ -97,56 +106,83 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
           </Button>
         </header>
 
-        <nav aria-label="Secciones de edición" className="border-b border-border px-3 sm:px-5">
-          <div role="tablist" className="flex gap-1 overflow-x-auto">
-            {SECTIONS.map(({ id, label, icon: Icon }) => {
-              const active = section === id;
-              return (
-                <button
-                  key={id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  aria-controls={`panel-${id}`}
-                  id={`tab-${id}`}
-                  onClick={() => setSection(id)}
-                  className={`relative flex shrink-0 items-center gap-2 whitespace-nowrap px-3 py-3.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:px-4 ${
-                    active ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  <Icon className="size-4" aria-hidden="true" />
-                  {label}
-                  <span
-                    aria-hidden="true"
-                    className={`absolute inset-x-2 bottom-0 h-0.5 rounded-full bg-primary transition-opacity ${
-                      active ? "opacity-100" : "opacity-0"
-                    }`}
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </nav>
-
-        <div className="overflow-y-auto">
-          {section === "general" && <GeneralPanel url={url} onClose={onClose} />}
-          {section === "destinos" && <DynamicPanel url={url} />}
-          {section !== "general" && section !== "destinos" && (
+        <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
+          <nav
+            aria-label="Secciones de edición"
+            className="shrink-0 border-b border-border bg-secondary/40 px-3 py-3 sm:w-56 sm:border-b-0 sm:border-r sm:px-3 sm:py-5"
+          >
+            <p className="hidden px-3 pb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:block">
+              Configuración
+            </p>
             <div
-              role="tabpanel"
-              id={`panel-${section}`}
-              aria-labelledby={`tab-${section}`}
-              className="flex flex-col items-center gap-3 px-6 py-16 text-center sm:px-8"
+              role="tablist"
+              aria-orientation="vertical"
+              className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible"
             >
-              <span className="flex size-12 items-center justify-center rounded-xl bg-accent text-primary" aria-hidden="true">
-                <PencilLine className="size-5" />
-              </span>
-              <p className="font-display text-lg font-semibold text-foreground">Sección en construcción</p>
-              <p className="max-w-sm text-sm text-muted-foreground">
-                Diseñaremos esta sección a continuación, una por una.
-              </p>
+              {SECTIONS.map(({ id, label, icon: Icon }) => {
+                const active = section === id;
+                return (
+                  <Button
+                    key={id}
+                    type="button"
+                    role="tab"
+                    variant="ghost"
+                    aria-selected={active}
+                    aria-controls={`panel-${id}`}
+                    id={`tab-${id}`}
+                    tabIndex={active ? 0 : -1}
+                    onClick={() => setSection(id)}
+                    onKeyDown={(event) => {
+                      if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+                        event.preventDefault();
+                        moveSection(id, 1);
+                      }
+                      if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+                        event.preventDefault();
+                        moveSection(id, -1);
+                      }
+                    }}
+                    className={`h-11 shrink-0 justify-start gap-3 rounded-lg px-3 text-sm font-semibold sm:w-full ${
+                      active
+                        ? "bg-accent text-primary shadow-subtle hover:bg-accent hover:text-primary"
+                        : "text-muted-foreground hover:bg-background hover:text-foreground"
+                    }`}
+                  >
+                    <span
+                      className={`flex size-7 shrink-0 items-center justify-center rounded-md ${
+                        active ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <Icon className="size-4" />
+                    </span>
+                    <span className="whitespace-nowrap">{label}</span>
+                  </Button>
+                );
+              })}
             </div>
-          )}
+          </nav>
+
+          <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+            {section === "general" && <GeneralPanel url={url} onClose={onClose} />}
+            {section === "destinos" && <DynamicPanel url={url} />}
+            {section !== "general" && section !== "destinos" && (
+              <div
+                role="tabpanel"
+                id={`panel-${section}`}
+                aria-labelledby={`tab-${section}`}
+                className="flex flex-col items-center gap-3 px-6 py-16 text-center sm:px-8"
+              >
+                <span className="flex size-12 items-center justify-center rounded-xl bg-accent text-primary" aria-hidden="true">
+                  <PencilLine className="size-5" />
+                </span>
+                <p className="font-display text-lg font-semibold text-foreground">Sección en construcción</p>
+                <p className="max-w-sm text-sm text-muted-foreground">
+                  Diseñaremos esta sección a continuación, una por una.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>
