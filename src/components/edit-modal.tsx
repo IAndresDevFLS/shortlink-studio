@@ -1,12 +1,14 @@
 import {
   CalendarClock,
   Check,
+  FlaskConical,
   Link2,
   LockKeyhole,
   MoveRight,
   PencilLine,
-  Split,
+  Smartphone,
   Tag,
+  Waypoints,
   X,
 } from "lucide-react";
 import { useEffect, useState, type FormEvent, type KeyboardEvent } from "react";
@@ -27,9 +29,9 @@ type EditSection = "general" | "destinos" | "canales" | "ab" | "dispositivo" | "
 const SECTIONS: Array<{ id: EditSection; label: string; icon: typeof Link2 }> = [
   { id: "general", label: "General", icon: Link2 },
   { id: "destinos", label: "Destinos dinámicos", icon: MoveRight },
-  { id: "canales", label: "Canales", icon: Split },
-  { id: "ab", label: "A/B", icon: Split },
-  { id: "dispositivo", label: "Dispositivo/Ubicación", icon: MoveRight },
+  { id: "canales", label: "Canales", icon: Waypoints },
+  { id: "ab", label: "A/B", icon: FlaskConical },
+  { id: "dispositivo", label: "Dispositivo/Ubicación", icon: Smartphone },
   { id: "agenda", label: "Agenda", icon: CalendarClock },
 ];
 
