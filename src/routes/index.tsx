@@ -148,7 +148,7 @@ function Index() {
             <p role="status" className="min-h-5 text-sm font-medium text-primary">
               {submitted ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Enlace listo para crear</span> : null}
             </p>
-            <div className="flex flex-col-reverse gap-3 sm:flex-row">
+            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
               <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setEditOpen(true)}>
                 <PencilLine className="size-4" /> Editar enlace
               </Button>
