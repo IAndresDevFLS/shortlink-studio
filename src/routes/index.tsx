@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Check, LockKeyhole, Plus, QrCode, Tag, X } from "lucide-react";
+import { ArrowRight, Check, LockKeyhole, Plus, QrCode, Tag, Trash2, X } from "lucide-react";
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 
+import { DeleteModal } from "@/components/delete-modal";
 import { QrModal } from "@/components/qr-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,7 @@ function Index() {
   const [tagDraft, setTagDraft] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
   const shortlinkUrl = "https://cpto.co/UcyMyp6Z";
 
   const addTag = () => {
@@ -148,6 +150,9 @@ function Index() {
               <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setQrOpen(true)}>
                 <QrCode className="size-4" /> Ver código QR
               </Button>
+              <Button type="button" variant="outline" className="h-11 rounded-full px-5 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => setDeleteOpen(true)}>
+                <Trash2 className="size-4" /> Eliminar
+              </Button>
               <Button type="button" variant="ghost" className="h-11 rounded-full px-5">Cancelar</Button>
               <Button type="submit" variant="premium" className="h-11 rounded-full px-6">
                 Crear enlace <ArrowRight className="size-4" />
@@ -158,6 +163,7 @@ function Index() {
       </section>
 
       <QrModal open={qrOpen} url={shortlinkUrl} onClose={() => setQrOpen(false)} />
+      <DeleteModal open={deleteOpen} url={shortlinkUrl} onClose={() => setDeleteOpen(false)} />
     </main>
   );
 }
