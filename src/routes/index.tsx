@@ -3,7 +3,7 @@ import { ArrowRight, Check, LockKeyhole, PencilLine, Plus, QrCode, Tag, Trash2, 
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 
 import { DeleteModal } from "@/components/delete-modal";
-import { GeneralModal } from "@/components/general-modal";
+import { EditModal } from "@/components/edit-modal";
 import { QrModal } from "@/components/qr-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -36,7 +36,7 @@ function Index() {
   const [submitted, setSubmitted] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-  const [generalOpen, setGeneralOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   const shortlinkUrl = "https://cpto.co/UcyMyp6Z";
 
   const addTag = () => {
