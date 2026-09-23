@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, Check, LockKeyhole, Plus, QrCode, Tag, Trash2, X } from "lucide-react";
+import { ArrowRight, Check, LockKeyhole, PencilLine, Plus, QrCode, Tag, Trash2, X } from "lucide-react";
 import { useState, type FormEvent, type KeyboardEvent } from "react";
 
 import { DeleteModal } from "@/components/delete-modal";
+import { GeneralModal } from "@/components/general-modal";
 import { QrModal } from "@/components/qr-modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,6 +36,7 @@ function Index() {
   const [submitted, setSubmitted] = useState(false);
   const [qrOpen, setQrOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [generalOpen, setGeneralOpen] = useState(false);
   const shortlinkUrl = "https://cpto.co/UcyMyp6Z";
 
   const addTag = () => {
@@ -147,6 +149,9 @@ function Index() {
               {submitted ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Enlace listo para crear</span> : null}
             </p>
             <div className="flex flex-col-reverse gap-3 sm:flex-row">
+              <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setGeneralOpen(true)}>
+                <PencilLine className="size-4" /> Editar (General)
+              </Button>
               <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setQrOpen(true)}>
                 <QrCode className="size-4" /> Ver código QR
               </Button>
@@ -162,6 +167,7 @@ function Index() {
         </form>
       </section>
 
+      <GeneralModal open={generalOpen} url={shortlinkUrl} onClose={() => setGeneralOpen(false)} />
       <QrModal open={qrOpen} url={shortlinkUrl} onClose={() => setQrOpen(false)} />
       <DeleteModal open={deleteOpen} url={shortlinkUrl} onClose={() => setDeleteOpen(false)} />
     </main>
