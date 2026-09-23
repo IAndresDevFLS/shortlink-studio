@@ -32,6 +32,8 @@ function Index() {
   const [tags, setTags] = useState<string[]>(["Marketing"]);
   const [tagDraft, setTagDraft] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
+  const shortlinkUrl = "https://cpto.co/UcyMyp6Z";
 
   const addTag = () => {
     const value = tagDraft.trim();
@@ -143,6 +145,9 @@ function Index() {
               {submitted ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Enlace listo para crear</span> : null}
             </p>
             <div className="flex flex-col-reverse gap-3 sm:flex-row">
+              <Button type="button" variant="outline" className="h-11 rounded-full px-5" onClick={() => setQrOpen(true)}>
+                <QrCode className="size-4" /> Ver código QR
+              </Button>
               <Button type="button" variant="ghost" className="h-11 rounded-full px-5">Cancelar</Button>
               <Button type="submit" variant="premium" className="h-11 rounded-full px-6">
                 Crear enlace <ArrowRight className="size-4" />
@@ -151,6 +156,8 @@ function Index() {
           </footer>
         </form>
       </section>
+
+      <QrModal open={qrOpen} url={shortlinkUrl} onClose={() => setQrOpen(false)} />
     </main>
   );
 }
