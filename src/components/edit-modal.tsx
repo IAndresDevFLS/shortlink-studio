@@ -1,6 +1,8 @@
 import {
   CalendarClock,
   Check,
+  ChevronLeft,
+  ChevronRight,
   FlaskConical,
   Link2,
   LockKeyhole,
@@ -43,6 +45,8 @@ interface EditModalProps {
 
 export function EditModal({ open, url, onClose }: EditModalProps) {
   const [section, setSection] = useState<EditSection>("general");
+  const currentIndex = SECTIONS.findIndex(({ id }) => id === section);
+  const currentSection = SECTIONS[currentIndex] ?? SECTIONS[0];
 
   const moveSection = (current: EditSection, direction: 1 | -1) => {
     const currentIndex = SECTIONS.findIndex(({ id }) => id === current);
@@ -76,7 +80,7 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-title"
-        className="modal-enter relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated"
+        className="modal-enter relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated"
       >
         <header className="flex items-center justify-between border-b border-border px-6 py-5 sm:px-8">
           <div className="flex items-center gap-3">
@@ -106,64 +110,92 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
           </Button>
         </header>
 
-        <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
+        <div className="border-b border-border bg-secondary/40 px-5 py-4 sm:px-8 sm:py-5">
           <nav
             aria-label="Secciones de edición"
-            className="shrink-0 border-b border-border bg-secondary/40 px-3 py-3 sm:w-56 sm:border-b-0 sm:border-r sm:px-3 sm:py-5"
+            className="hidden sm:block"
           >
-            <p className="hidden px-3 pb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:block">
-              Configuración
-            </p>
             <div
               role="tablist"
-              aria-orientation="vertical"
-              className="flex gap-1 overflow-x-auto sm:flex-col sm:overflow-visible"
+              aria-label="Pasos de edición"
+              className="grid grid-cols-6"
             >
-              {SECTIONS.map(({ id, label, icon: Icon }) => {
+              {SECTIONS.map(({ id, label, icon: Icon }, index) => {
                 const active = section === id;
+                const completed = index < currentIndex;
                 return (
-                  <Button
-                    key={id}
-                    type="button"
-                    role="tab"
-                    variant="ghost"
-                    aria-selected={active}
-                    aria-controls={`panel-${id}`}
-                    id={`tab-${id}`}
-                    tabIndex={active ? 0 : -1}
-                    onClick={() => setSection(id)}
-                    onKeyDown={(event) => {
-                      if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-                        event.preventDefault();
-                        moveSection(id, 1);
-                      }
-                      if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
-                        event.preventDefault();
-                        moveSection(id, -1);
-                      }
-                    }}
-                    className={`h-11 shrink-0 justify-start gap-3 rounded-lg px-3 text-sm font-semibold sm:w-full ${
-                      active
-                        ? "bg-accent text-primary shadow-subtle hover:bg-accent hover:text-primary"
-                        : "text-muted-foreground hover:bg-background hover:text-foreground"
-                    }`}
-                  >
-                    <span
-                      className={`flex size-7 shrink-0 items-center justify-center rounded-md ${
-                        active ? "bg-primary text-primary-foreground" : "bg-background text-muted-foreground"
-                      }`}
-                      aria-hidden="true"
+                  <div key={id} className="relative flex min-w-0 flex-col items-center">
+                    {index > 0 ? (
+                      <span
+                        aria-hidden="true"
+                        className={`absolute right-1/2 top-5 h-px w-full ${index <= currentIndex ? "bg-primary" : "bg-border"}`}
+                      />
+                    ) : null}
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      aria-controls={`panel-${id}`}
+                      id={`tab-${id}`}
+                      tabIndex={active ? 0 : -1}
+                      onClick={() => setSection(id)}
+                      onKeyDown={(event) => {
+                        if (event.key === "ArrowRight") {
+                          event.preventDefault();
+                          moveSection(id, 1);
+                        }
+                        if (event.key === "ArrowLeft") {
+                          event.preventDefault();
+                          moveSection(id, -1);
+                        }
+                      }}
+                      className="relative z-10 flex min-w-0 flex-col items-center gap-2 rounded-lg px-1 text-center text-xs font-semibold text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
-                      <Icon className="size-4" />
-                    </span>
-                    <span className="whitespace-nowrap">{label}</span>
-                  </Button>
+                      <span
+                        className={`flex size-10 items-center justify-center rounded-full border transition-colors ${
+                          active
+                            ? "border-primary bg-primary text-primary-foreground shadow-action"
+                            : completed
+                              ? "border-primary bg-accent text-primary"
+                              : "border-border bg-card text-muted-foreground"
+                        }`}
+                        aria-hidden="true"
+                      >
+                        {completed ? <Check className="size-4" /> : <Icon className="size-4" />}
+                      </span>
+                      <span className={active ? "text-primary" : ""}>{label}</span>
+                    </button>
+                  </div>
                 );
               })}
             </div>
           </nav>
 
-          <div className="min-h-0 min-w-0 flex-1 overflow-y-auto">
+          <div className="sm:hidden">
+            <div className="mb-3 flex items-center justify-between gap-4">
+              <div className="flex min-w-0 items-center gap-3">
+                {currentSection ? (
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                    <currentSection.icon className="size-4" aria-hidden="true" />
+                  </span>
+                ) : null}
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase text-muted-foreground">Paso {currentIndex + 1} de {SECTIONS.length}</p>
+                  <p className="truncate font-display text-base font-semibold text-foreground">{currentSection?.label}</p>
+                </div>
+              </div>
+              <span className="font-mono text-sm font-semibold text-primary">{Math.round(((currentIndex + 1) / SECTIONS.length) * 100)}%</span>
+            </div>
+            <div className="h-1.5 overflow-hidden rounded-full bg-border" aria-hidden="true">
+              <div
+                className="h-full rounded-full bg-primary transition-[width]"
+                style={{ width: `${((currentIndex + 1) / SECTIONS.length) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto">
             {section === "general" && <GeneralPanel url={url} onClose={onClose} />}
             {section === "destinos" && <DynamicPanel url={url} />}
             {section !== "general" && section !== "destinos" && (
@@ -182,7 +214,30 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
                 </p>
               </div>
             )}
-          </div>
+        </div>
+
+        <div className="flex items-center justify-between border-t border-border bg-card px-5 py-3 sm:px-8">
+          <Button
+            type="button"
+            variant="ghost"
+            className="h-10 rounded-full px-4"
+            disabled={currentIndex === 0}
+            onClick={() => moveSection(section, -1)}
+          >
+            <ChevronLeft className="size-4" /> Anterior
+          </Button>
+          <span className="hidden text-xs font-medium text-muted-foreground sm:block">
+            Paso {currentIndex + 1} de {SECTIONS.length}
+          </span>
+          <Button
+            type="button"
+            variant="outline"
+            className="h-10 rounded-full px-4"
+            disabled={currentIndex === SECTIONS.length - 1}
+            onClick={() => moveSection(section, 1)}
+          >
+            Siguiente <ChevronRight className="size-4" />
+          </Button>
         </div>
       </section>
     </div>
