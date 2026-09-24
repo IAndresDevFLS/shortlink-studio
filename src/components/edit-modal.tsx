@@ -1016,7 +1016,7 @@ function SchedulePanel({ url }: { url: string }) {
               {windows.map((scheduleWindow, index) => (
                 <article key={scheduleWindow.id} className="overflow-hidden rounded-xl border border-border bg-card shadow-subtle transition-colors hover:border-primary/30">
                   <header className="flex flex-col gap-3 border-b border-border bg-secondary/45 p-4 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex min-w-0 flex-1 items-center gap-3">
+                    <div className="flex w-full min-w-0 flex-1 items-center gap-3">
                       <span className="shrink-0 rounded-full border border-primary/20 bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase text-primary">Programada</span>
                       <Label htmlFor={`schedule-name-${scheduleWindow.id}`} className="sr-only">Nombre de la ventana {index + 1}</Label>
                       <Input
@@ -1024,7 +1024,7 @@ function SchedulePanel({ url }: { url: string }) {
                         value={scheduleWindow.name}
                         onChange={(event) => updateWindow(scheduleWindow.id, { name: event.target.value })}
                         placeholder="Nombre de la ventana (ej. Black Friday)"
-                        className="h-10 min-w-0 bg-card text-sm"
+                        className="h-10 w-0 min-w-0 flex-1 bg-card text-sm"
                       />
                     </div>
                     <div className="flex shrink-0 items-center gap-1 self-end sm:self-auto">
