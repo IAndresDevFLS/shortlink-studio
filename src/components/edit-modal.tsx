@@ -20,6 +20,7 @@ import {
   LockKeyhole,
   Mail,
   MapPin,
+  Monitor,
   MessageCircle,
   MessageSquareText,
   MoveRight,
