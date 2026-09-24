@@ -3,13 +3,21 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Globe2,
   FlaskConical,
+  Instagram,
   Link2,
+  Linkedin,
   LockKeyhole,
+  Mail,
+  MessageCircle,
+  MessageSquareText,
   MoveRight,
   PencilLine,
+  Plus,
   Smartphone,
   Tag,
+  Trash2,
   Waypoints,
   X,
 } from "lucide-react";
@@ -198,7 +206,8 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
         <div className="min-h-0 flex-1 overflow-y-auto">
             {section === "general" && <GeneralPanel url={url} onClose={onClose} />}
             {section === "destinos" && <DynamicPanel url={url} />}
-            {section !== "general" && section !== "destinos" && (
+            {section === "canales" && <ChannelsPanel />}
+            {section !== "general" && section !== "destinos" && section !== "canales" && (
               <div
                 role="tabpanel"
                 id={`panel-${section}`}
@@ -490,5 +499,157 @@ function DynamicPanel({ url }: { url: string }) {
         ) : null}
       </fieldset>
     </form>
+  );
+}
+
+type ChannelId = "email" | "sms" | "whatsapp" | "instagram" | "linkedin" | "otro";
+
+const CHANNELS: Array<{
+  id: ChannelId;
+  label: string;
+  icon: typeof Mail;
+}> = [
+  { id: "email", label: "Email", icon: Mail },
+  { id: "sms", label: "SMS", icon: MessageSquareText },
+  { id: "whatsapp", label: "WhatsApp", icon: MessageCircle },
+  { id: "instagram", label: "Instagram", icon: Instagram },
+  { id: "linkedin", label: "LinkedIn", icon: Linkedin },
+  { id: "otro", label: "Otro canal", icon: Globe2 },
+];
+
+interface ChannelRoute {
+  id: number;
+  channel: ChannelId;
+  url: string;
+}
+
+function ChannelsPanel() {
+  const [channel, setChannel] = useState<ChannelId | "">("");
+  const [destination, setDestination] = useState("");
+  const [routes, setRoutes] = useState<ChannelRoute[]>([]);
+  const [nextId, setNextId] = useState(1);
+
+  const addRoute = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const url = destination.trim();
+    if (!channel || !url) return;
+    setRoutes((current) => [...current, { id: nextId, channel, url }]);
+    setNextId((current) => current + 1);
+    setChannel("");
+    setDestination("");
+  };
+
+  return (
+    <div
+      role="tabpanel"
+      id="panel-canales"
+      aria-labelledby="tab-canales"
+      className="space-y-6 px-6 py-6 sm:px-8 sm:py-8"
+    >
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Waypoints className="size-4 text-primary" aria-hidden="true" />
+          <h3 className="font-display text-base font-semibold text-foreground">Rutas por canal</h3>
+        </div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Envía cada canal a un destino específico sin cambiar tu enlace corto.
+        </p>
+      </div>
+
+      <form
+        onSubmit={addRoute}
+        className="grid gap-3 rounded-xl border border-border bg-secondary/60 p-3 shadow-subtle sm:grid-cols-[11rem_1fr_auto] sm:items-end"
+      >
+        <div className="space-y-2">
+          <Label htmlFor="channel-type">Canal</Label>
+          <Select value={channel} onValueChange={(value) => setChannel(value as ChannelId)}>
+            <SelectTrigger id="channel-type" className="h-12 rounded-lg bg-background">
+              <SelectValue placeholder="Seleccionar" />
+            </SelectTrigger>
+            <SelectContent>
+              {CHANNELS.map(({ id, label, icon: Icon }) => (
+                <SelectItem key={id} value={id}>
+                  <span className="flex items-center gap-2">
+                    <Icon className="size-4 text-primary" aria-hidden="true" />
+                    {label}
+                  </span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="channel-url">URL de destino</Label>
+          <Input
+            id="channel-url"
+            type="url"
+            value={destination}
+            onChange={(event) => setDestination(event.target.value)}
+            placeholder="https://dominio.com/destino"
+            className="font-mono text-sm"
+            required
+          />
+        </div>
+        <Button
+          type="submit"
+          variant="premium"
+          className="h-12 rounded-full px-5"
+          disabled={!channel || !destination.trim()}
+        >
+          <Plus className="size-4" /> Añadir
+        </Button>
+      </form>
+
+      {routes.length === 0 ? (
+        <div className="flex min-h-44 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-secondary/30 px-6 py-8 text-center">
+          <span className="mb-3 flex size-11 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-subtle">
+            <Waypoints className="size-5" aria-hidden="true" />
+          </span>
+          <p className="font-display text-sm font-semibold text-foreground">
+            No hay rutas específicas configuradas
+          </p>
+          <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
+            Todos los clics usarán el destino predeterminado configurado en General.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3" aria-live="polite">
+          <div className="flex items-center justify-between px-1 text-xs font-semibold text-muted-foreground">
+            <span>Canales activos</span>
+            <span>{routes.length} {routes.length === 1 ? "ruta" : "rutas"}</span>
+          </div>
+          {routes.map((route) => {
+            const config = CHANNELS.find(({ id }) => id === route.channel);
+            if (!config) return null;
+            const Icon = config.icon;
+            return (
+              <div
+                key={route.id}
+                className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-subtle transition-colors hover:border-primary/30"
+              >
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
+                  <Icon className="size-4" aria-hidden="true" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-foreground">{config.label}</p>
+                  <p className="truncate font-mono text-xs text-muted-foreground">{route.url}</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  className="shrink-0 text-muted-foreground hover:text-destructive"
+                  onClick={() => setRoutes((current) => current.filter(({ id }) => id !== route.id))}
+                  aria-label={`Eliminar ruta de ${config.label}`}
+                  title={`Eliminar ruta de ${config.label}`}
+                >
+                  <Trash2 className="size-4" />
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }
