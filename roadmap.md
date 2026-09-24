@@ -4,5 +4,5 @@
 - [x] Modal de eliminación (Compacto): creado según captura de referencia (Cancelar + Eliminar rojo), verificado en escritorio y móvil.
 - [x] Modal unificado de edición: variante 3 (asistente por pasos) APROBADA por el usuario; General y Destinos dinámicos funcionales.
 - [x] Canales: iconos por canal, creación/eliminación de rutas y estado vacío aprobado.
-- [ ] A/B: implementar la variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
+- [x] A/B: variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
 - [ ] Diseñar las secciones Dispositivo/Ubicación y Agenda, una por una.

@@ -1,6 +1,13 @@
 import {
+  ArrowDown,
+  ArrowUp,
+  BarChart3,
   CalendarClock,
   Check,
+  Copy,
+  ListChecks,
+  MousePointerClick,
+  Percent,
   ChevronLeft,
   ChevronRight,
   Globe2,
@@ -26,6 +33,7 @@ import { useEffect, useState, type FormEvent, type KeyboardEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -207,7 +215,8 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
             {section === "general" && <GeneralPanel url={url} onClose={onClose} />}
             {section === "destinos" && <DynamicPanel url={url} />}
             {section === "canales" && <ChannelsPanel />}
-            {section !== "general" && section !== "destinos" && section !== "canales" && (
+            {section === "ab" && <AbPanel />}
+            {section !== "general" && section !== "destinos" && section !== "canales" && section !== "ab" && (
               <div
                 role="tabpanel"
                 id={`panel-${section}`}
@@ -651,5 +660,293 @@ function ChannelsPanel() {
         </div>
       )}
     </div>
+  );
+}
+
+type DistributionMode = "percentage" | "quantity";
+
+interface AbVariant {
+  key: number;
+  url: string;
+  allocation: number;
+  webhookId?: string;
+  clicks: number;
+  conversions: number;
+}
+
+const INITIAL_AB_VARIANTS: AbVariant[] = [
+  {
+    key: 1,
+    url: "https://www.youtube.com/watch?v=I6NEDAUxGkk",
+    allocation: 50,
+    webhookId: "6ab587d9460ab33b4ae028b8",
+    clicks: 1248,
+    conversions: 186,
+  },
+  {
+    key: 2,
+    url: "https://www.instagram.com/leganza_persianas/",
+    allocation: 50,
+    webhookId: "6ab587d9460ab33b4ae028b9",
+    clicks: 1104,
+    conversions: 201,
+  },
+];
+
+function AbPanel() {
+  const [mode, setMode] = useState<DistributionMode>("percentage");
+  const [redirectLimit, setRedirectLimit] = useState("");
+  const [variants, setVariants] = useState<AbVariant[]>(INITIAL_AB_VARIANTS);
+  const [finishManually, setFinishManually] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const totalAllocation = variants.reduce((sum, variant) => sum + variant.allocation, 0);
+  const percentageValid = mode !== "percentage" || totalAllocation === 100;
+
+  const updateVariant = (key: number, changes: Partial<AbVariant>) => {
+    setVariants((current) => current.map((variant) => variant.key === key ? { ...variant, ...changes } : variant));
+  };
+
+  const moveVariant = (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= variants.length) return;
+    setVariants((current) => {
+      const next = [...current];
+      const first = next[index];
+      const second = next[target];
+      if (!first || !second) return current;
+      next[index] = second;
+      next[target] = first;
+      return next;
+    });
+  };
+
+  const addVariant = () => {
+    const nextKey = Math.max(0, ...variants.map(({ key }) => key)) + 1;
+    setVariants((current) => [...current, {
+      key: nextKey,
+      url: "",
+      allocation: mode === "percentage" ? 0 : 1,
+      clicks: 0,
+      conversions: 0,
+    }]);
+  };
+
+  const copyId = async (id: string) => {
+    await navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    window.setTimeout(() => setCopiedId(null), 1600);
+  };
+
+  const saveExperiment = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!percentageValid || variants.some(({ url }) => !url.trim())) return;
+    setVariants((current) => current.map((variant, index) => ({
+      ...variant,
+      webhookId: variant.webhookId ?? `6ab587d9460ab33b4ae${String(290 + index).padStart(4, "0")}`,
+    })));
+    setSaved(true);
+    window.setTimeout(() => setSaved(false), 1800);
+  };
+
+  return (
+    <form
+      role="tabpanel"
+      id="panel-ab"
+      aria-labelledby="tab-ab"
+      onSubmit={saveExperiment}
+      className="space-y-8 px-6 py-6 sm:px-8 sm:py-8"
+    >
+      <section aria-labelledby="ab-config-title" className="space-y-6">
+        <div className="flex items-start gap-3">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-primary" aria-hidden="true">
+            <FlaskConical className="size-4" />
+          </span>
+          <div>
+            <h3 id="ab-config-title" className="font-display text-base font-semibold text-foreground">Configura el experimento</h3>
+            <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Elige cómo repartir los clics y compara qué destino convierte mejor.</p>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend className="mb-3 text-sm font-semibold text-foreground">¿Cómo quieres repartir el tráfico?</legend>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {([
+              { id: "percentage" as const, label: "Por porcentaje", help: "Asigna un peso hasta sumar 100%", icon: Percent },
+              { id: "quantity" as const, label: "Por cantidad", help: "Rota por una cuota fija de clics", icon: ListChecks },
+            ]).map(({ id, label, help, icon: Icon }) => {
+              const active = mode === id;
+              return (
+                <Button
+                  key={id}
+                  type="button"
+                  variant="outline"
+                  aria-pressed={active}
+                  onClick={() => setMode(id)}
+                  className={`relative h-auto min-h-20 justify-start whitespace-normal rounded-xl p-4 text-left shadow-none ${active ? "border-primary bg-accent text-accent-foreground ring-1 ring-primary" : "bg-card"}`}
+                >
+                  <Icon className="size-5 shrink-0 text-primary" />
+                  <span className="min-w-0">
+                    <span className="block font-display font-semibold text-foreground">{label}</span>
+                    <span className="mt-1 block text-xs font-normal text-muted-foreground">{help}</span>
+                  </span>
+                  {active ? <Check className="absolute right-3 top-3 size-4 text-primary" aria-hidden="true" /> : null}
+                </Button>
+              );
+            })}
+          </div>
+        </fieldset>
+
+        <div className="space-y-2">
+          <Label htmlFor="ab-limit">Límite total de redirecciones <span className="font-normal text-muted-foreground">(opcional)</span></Label>
+          <div className="flex items-center gap-3">
+            <Input
+              id="ab-limit"
+              type="number"
+              min={1}
+              value={redirectLimit}
+              onChange={(event) => setRedirectLimit(event.target.value)}
+              placeholder="Sin límite"
+              className="w-36"
+            />
+            <span className="text-sm text-muted-foreground">redirecciones</span>
+          </div>
+          <p className="text-xs leading-relaxed text-muted-foreground">Al alcanzar el límite, el tráfico irá a la variante con mejor conversión.</p>
+        </div>
+
+        <div className="space-y-3">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h4 className="text-sm font-semibold text-foreground">Variantes</h4>
+              <p className="text-xs text-muted-foreground">Cada variante necesita una URL y una asignación.</p>
+            </div>
+            <Button type="button" variant="outline" className="h-10 rounded-full border-dashed px-4" onClick={addVariant}>
+              <Plus className="size-4" /> Añadir
+            </Button>
+          </div>
+
+          {variants.map((variant, index) => {
+            const label = String.fromCharCode(65 + index);
+            return (
+              <article key={variant.key} className="group rounded-xl border border-border bg-card p-4 shadow-subtle transition-colors hover:border-primary/30 sm:p-5">
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-primary">{label}</span>
+                    <span className="truncate font-mono text-xs text-muted-foreground">
+                      {variant.webhookId ? `ID: ${variant.webhookId}` : "El ID se asignará al guardar"}
+                    </span>
+                    {variant.webhookId ? (
+                      <Button type="button" variant="ghost" size="icon" className="size-9 shrink-0" onClick={() => copyId(variant.webhookId ?? "")} aria-label={`Copiar ID de la variante ${label}`} title="Copiar ID">
+                        {copiedId === variant.webhookId ? <Check className="size-4 text-primary" /> : <Copy className="size-4" />}
+                      </Button>
+                    ) : null}
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <Button type="button" variant="ghost" size="icon" className="size-9" disabled={index === 0} onClick={() => moveVariant(index, -1)} aria-label={`Subir variante ${label}`} title="Subir">
+                      <ArrowUp className="size-4" />
+                    </Button>
+                    <Button type="button" variant="ghost" size="icon" className="size-9" disabled={index === variants.length - 1} onClick={() => moveVariant(index, 1)} aria-label={`Bajar variante ${label}`} title="Bajar">
+                      <ArrowDown className="size-4" />
+                    </Button>
+                    <Button type="button" variant="ghost" size="icon" className="size-9 text-muted-foreground hover:text-destructive" disabled={variants.length <= 1} onClick={() => setVariants((current) => current.filter(({ key }) => key !== variant.key))} aria-label={`Eliminar variante ${label}`} title="Eliminar">
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <Label htmlFor={`variant-url-${variant.key}`} className="sr-only">URL de la variante {label}</Label>
+                  <Input id={`variant-url-${variant.key}`} type="url" value={variant.url} onChange={(event) => updateVariant(variant.key, { url: event.target.value })} placeholder="https://dominio.com/destino" className="font-mono text-sm" required />
+                  <div className="flex items-center gap-3">
+                    <Label htmlFor={`variant-allocation-${variant.key}`} className="sr-only">{mode === "percentage" ? "Porcentaje" : "Cuota"} de la variante {label}</Label>
+                    <div className="flex shrink-0 items-center rounded-lg border border-input bg-background pr-3 shadow-subtle focus-within:border-primary focus-within:ring-2 focus-within:ring-ring/20">
+                      <input id={`variant-allocation-${variant.key}`} type="number" min={0} max={mode === "percentage" ? 100 : undefined} value={variant.allocation} onChange={(event) => updateVariant(variant.key, { allocation: Number(event.target.value) })} className="h-10 w-16 border-0 bg-transparent px-3 text-center text-sm font-semibold shadow-none outline-none" />
+                      <span className="text-sm text-muted-foreground">{mode === "percentage" ? "%" : "clics"}</span>
+                    </div>
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary" aria-hidden="true">
+                      <div className="h-full rounded-full bg-primary transition-[width]" style={{ width: `${mode === "percentage" ? Math.min(variant.allocation, 100) : Math.min(variant.allocation, 100)}%` }} />
+                    </div>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+
+          <div className="flex flex-col gap-3 rounded-xl bg-secondary/60 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className={`text-sm font-semibold ${percentageValid ? "text-primary" : "text-destructive"}`}>
+                {mode === "percentage" ? `Total asignado: ${totalAllocation}%` : `Cuota total: ${totalAllocation} clics`}
+              </p>
+              {mode === "percentage" ? <p className="mt-0.5 text-xs text-muted-foreground">La suma debe ser exactamente 100%.</p> : null}
+            </div>
+            <div className="h-2 w-full max-w-48 overflow-hidden rounded-full bg-border" aria-hidden="true">
+              <div className={`h-full rounded-full transition-[width] ${percentageValid ? "bg-primary" : "bg-destructive"}`} style={{ width: `${Math.min(totalAllocation, 100)}%` }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-start justify-between gap-5 border-t border-border pt-5">
+          <div>
+            <Label htmlFor="finish-experiment" className="font-semibold">Finalizar el experimento manualmente</Label>
+            <p className="mt-1 max-w-lg text-xs leading-relaxed text-muted-foreground">Al activarlo, el experimento termina y el tráfico se dirige a la variante con mejor conversión.</p>
+          </div>
+          <Switch id="finish-experiment" checked={finishManually} onCheckedChange={setFinishManually} aria-label="Finalizar el experimento manualmente" />
+        </div>
+
+        <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <Button type="button" variant="ghost" className="h-11 rounded-full px-5 text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => setVariants([])}>
+            <Trash2 className="size-4" /> Eliminar A/B
+          </Button>
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center">
+            <p role="status" className="min-h-5 text-sm font-medium text-primary">{saved ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Configuración guardada</span> : null}</p>
+            <Button type="submit" variant="premium" className="h-11 rounded-full px-6" disabled={!percentageValid || variants.length === 0}>
+              Guardar A/B <Check className="size-4" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {variants.some(({ webhookId }) => webhookId) ? (
+        <section aria-labelledby="ab-results-title" className="space-y-4 border-t border-border pt-8">
+          <div className="flex items-start gap-3">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-accent text-primary" aria-hidden="true"><BarChart3 className="size-4" /></span>
+            <div>
+              <h3 id="ab-results-title" className="font-display text-base font-semibold text-foreground">Conversiones por variante</h3>
+              <p className="mt-1 text-sm text-muted-foreground">Envía el ID de la variante al webhook cuando se complete la conversión.</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {variants.filter(({ webhookId }) => webhookId).map((variant, index) => {
+              const label = String.fromCharCode(65 + index);
+              const rate = variant.clicks > 0 ? (variant.conversions / variant.clicks) * 100 : 0;
+              const conversionWidth = variant.clicks > 0 ? Math.max(18, (variant.conversions / variant.clicks) * 100) : 18;
+              return (
+                <article key={variant.key} className="rounded-xl border border-border bg-card p-4 shadow-subtle">
+                  <header className="flex items-center justify-between gap-3">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-primary">{label}</span>
+                      <span className="truncate font-mono text-[11px] text-muted-foreground">{variant.webhookId}</span>
+                    </div>
+                    <Button type="button" variant="ghost" size="icon" className="size-9 shrink-0" onClick={() => copyId(variant.webhookId ?? "")} aria-label={`Copiar ID de conversión ${label}`} title="Copiar ID">
+                      {copiedId === variant.webhookId ? <Check className="size-4 text-primary" /> : <Copy className="size-4" />}
+                    </Button>
+                  </header>
+                  <div className="mx-auto my-5 flex max-w-64 flex-col items-center gap-1 text-center text-xs font-semibold text-primary-foreground">
+                    <div className="flex h-14 w-full items-center justify-center rounded-t-lg bg-foreground px-3"><MousePointerClick className="mr-2 size-4" /> {variant.clicks.toLocaleString("es-ES")} clics</div>
+                    <div className="flex h-14 min-w-[7.5rem] items-center justify-center rounded-b-lg bg-primary px-3 transition-[width]" style={{ width: `${conversionWidth}%` }}><Check className="mr-2 size-4" /> {variant.conversions.toLocaleString("es-ES")} conversiones</div>
+                  </div>
+                  <dl className="grid grid-cols-3 gap-2 border-t border-border pt-3 text-center">
+                    <div><dt className="text-[11px] text-muted-foreground">Clics</dt><dd className="mt-1 text-sm font-semibold text-foreground">{variant.clicks.toLocaleString("es-ES")}</dd></div>
+                    <div><dt className="text-[11px] text-muted-foreground">Conversiones</dt><dd className="mt-1 text-sm font-semibold text-foreground">{variant.conversions.toLocaleString("es-ES")}</dd></div>
+                    <div><dt className="text-[11px] text-muted-foreground">Tasa</dt><dd className="mt-1 text-sm font-semibold text-primary">{rate.toFixed(1)}%</dd></div>
+                  </dl>
+                </article>
+              );
+            })}
+          </div>
+          <p role="status" className="min-h-5 text-xs font-medium text-primary">{copiedId ? "ID copiado al portapapeles" : null}</p>
+        </section>
+      ) : null}
+    </form>
   );
 }
