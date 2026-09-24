@@ -5,4 +5,5 @@
 - [x] Modal unificado de edición: variante 3 (asistente por pasos) APROBADA por el usuario; General y Destinos dinámicos funcionales.
 - [x] Canales: iconos por canal, creación/eliminación de rutas y estado vacío aprobado.
 - [x] A/B: variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
-- [ ] Diseñar las secciones Dispositivo/Ubicación y Agenda, una por una.
+- [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
+- [ ] Diseñar la sección Agenda.

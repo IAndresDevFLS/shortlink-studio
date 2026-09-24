@@ -4,6 +4,8 @@ import {
   BarChart3,
   CalendarClock,
   Check,
+  CircleAlert,
+  Compass,
   Copy,
   ListChecks,
   MousePointerClick,
@@ -17,6 +19,7 @@ import {
   Linkedin,
   LockKeyhole,
   Mail,
+  MapPin,
   MessageCircle,
   MessageSquareText,
   MoveRight,
@@ -216,7 +219,8 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
             {section === "destinos" && <DynamicPanel url={url} />}
             {section === "canales" && <ChannelsPanel />}
             {section === "ab" && <AbPanel />}
-            {section !== "general" && section !== "destinos" && section !== "canales" && section !== "ab" && (
+            {section === "dispositivo" && <DeviceLocationPanel />}
+            {section !== "general" && section !== "destinos" && section !== "canales" && section !== "ab" && section !== "dispositivo" && (
               <div
                 role="tabpanel"
                 id={`panel-${section}`}
@@ -659,6 +663,214 @@ function ChannelsPanel() {
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+type ContextRuleType = "device" | "os" | "browser" | "country" | "region";
+
+interface ContextRule {
+  id: number;
+  type: ContextRuleType;
+  value: string;
+  url: string;
+}
+
+const CONTEXT_RULE_TYPES: Array<{
+  id: ContextRuleType;
+  label: string;
+  shortLabel: string;
+  placeholder: string;
+  icon: typeof Smartphone;
+}> = [
+  { id: "device", label: "Dispositivo", shortLabel: "Dispositivo", placeholder: "Ej. mobile o desktop", icon: Smartphone },
+  { id: "os", label: "Sistema operativo", shortLabel: "Sistema operativo", placeholder: "Ej. Windows, iOS o Android", icon: Monitor },
+  { id: "browser", label: "Navegador", shortLabel: "Navegador", placeholder: "Ej. Chrome, Safari o Firefox", icon: Compass },
+  { id: "country", label: "País (ISO)", shortLabel: "País", placeholder: "Ej. CO, MX o ES", icon: Globe2 },
+  { id: "region", label: "Región", shortLabel: "Región", placeholder: "Ej. Antioquia o Madrid", icon: MapPin },
+];
+
+const INITIAL_CONTEXT_RULES: ContextRule[] = [
+  {
+    id: 1,
+    type: "os",
+    value: "Windows",
+    url: "https://www.bbc.com/mundo/articles/cdjp03nmxxdo",
+  },
+];
+
+function DeviceLocationPanel() {
+  const [type, setType] = useState<ContextRuleType>("browser");
+  const [value, setValue] = useState("");
+  const [destination, setDestination] = useState("");
+  const [rules, setRules] = useState<ContextRule[]>(INITIAL_CONTEXT_RULES);
+  const [nextId, setNextId] = useState(2);
+  const selectedType = CONTEXT_RULE_TYPES.find(({ id }) => id === type);
+
+  const addRule = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const cleanValue = value.trim();
+    const cleanDestination = destination.trim();
+    if (!cleanValue || !cleanDestination) return;
+    setRules((current) => [...current, { id: nextId, type, value: cleanValue, url: cleanDestination }]);
+    setNextId((current) => current + 1);
+    setValue("");
+    setDestination("");
+  };
+
+  const moveRule = (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= rules.length) return;
+    setRules((current) => {
+      const next = [...current];
+      const currentRule = next[index];
+      const targetRule = next[target];
+      if (!currentRule || !targetRule) return current;
+      next[index] = targetRule;
+      next[target] = currentRule;
+      return next;
+    });
+  };
+
+  return (
+    <div
+      role="tabpanel"
+      id="panel-dispositivo"
+      aria-labelledby="tab-dispositivo"
+      className="space-y-6 px-6 py-6 sm:px-8 sm:py-8"
+    >
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <Smartphone className="size-4 text-primary" aria-hidden="true" />
+          <h3 className="font-display text-base font-semibold text-foreground">Rutas por dispositivo y ubicación</h3>
+        </div>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Envía cada visita al destino adecuado según su dispositivo, navegador o ubicación.
+        </p>
+      </div>
+
+      <form onSubmit={addRule} className="rounded-xl border border-border bg-secondary/60 p-4 shadow-subtle sm:p-5">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-2">
+            <Label htmlFor="context-rule-type">Tipo de regla</Label>
+            <Select value={type} onValueChange={(nextType) => setType(nextType as ContextRuleType)}>
+              <SelectTrigger id="context-rule-type" className="h-12 rounded-lg bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {CONTEXT_RULE_TYPES.map(({ id, label, icon: Icon }) => (
+                  <SelectItem key={id} value={id}>
+                    <span className="flex items-center gap-2">
+                      <Icon className="size-4 text-primary" aria-hidden="true" />
+                      {label}
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="context-rule-value">Valor de coincidencia</Label>
+            <Input
+              id="context-rule-value"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+              placeholder={selectedType?.placeholder}
+              autoComplete="off"
+              required
+            />
+          </div>
+
+          <div className="space-y-2 sm:col-span-2">
+            <Label htmlFor="context-rule-url">URL de destino</Label>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <Input
+                id="context-rule-url"
+                type="url"
+                value={destination}
+                onChange={(event) => setDestination(event.target.value)}
+                placeholder="https://dominio.com/destino"
+                className="font-mono text-sm"
+                required
+              />
+              <Button
+                type="submit"
+                variant="premium"
+                className="h-12 shrink-0 rounded-full px-5"
+                disabled={!value.trim() || !destination.trim()}
+              >
+                <Plus className="size-4" /> Añadir regla
+              </Button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      {rules.length === 0 ? (
+        <div className="flex min-h-40 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-secondary/30 px-6 py-8 text-center">
+          <span className="mb-3 flex size-11 items-center justify-center rounded-full border border-border bg-card text-muted-foreground shadow-subtle">
+            <Smartphone className="size-5" aria-hidden="true" />
+          </span>
+          <p className="font-display text-sm font-semibold text-foreground">No hay rutas de contexto configuradas</p>
+          <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">
+            Todos los clics usarán el destino predeterminado configurado en General.
+          </p>
+        </div>
+      ) : (
+        <section aria-labelledby="context-rules-title" className="space-y-3">
+          <div className="flex items-end justify-between gap-4 px-1">
+            <div>
+              <h4 id="context-rules-title" className="text-sm font-semibold text-foreground">Reglas activas</h4>
+              <p className="mt-0.5 text-xs text-muted-foreground">Se evalúan en orden: la primera coincidencia gana.</p>
+            </div>
+            <span className="shrink-0 text-xs font-semibold text-muted-foreground">{rules.length} {rules.length === 1 ? "regla" : "reglas"}</span>
+          </div>
+
+          <div className="space-y-3" aria-live="polite">
+            {rules.map((rule, index) => {
+              const config = CONTEXT_RULE_TYPES.find(({ id }) => id === rule.type);
+              if (!config) return null;
+              const Icon = config.icon;
+              return (
+                <article key={rule.id} className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-card p-3 shadow-subtle transition-colors hover:border-primary/30 sm:p-4">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-accent font-mono text-xs font-bold text-primary" aria-label={`Prioridad ${index + 1}`}>
+                    {index + 1}
+                  </span>
+                  <span className="hidden size-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary sm:flex" aria-hidden="true">
+                    <Icon className="size-4" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-semibold text-muted-foreground">{config.shortLabel}</span>
+                      <span className="rounded-full bg-accent px-2.5 py-1 font-mono text-xs font-semibold text-accent-foreground">{rule.value}</span>
+                    </div>
+                    <p className="mt-1.5 truncate font-mono text-xs text-muted-foreground" title={rule.url}>{rule.url}</p>
+                  </div>
+                  <div className="flex shrink-0 items-center gap-1">
+                    <Button type="button" variant="ghost" size="icon" className="size-9" disabled={index === 0} onClick={() => moveRule(index, -1)} aria-label={`Subir regla ${index + 1}`} title="Subir prioridad">
+                      <ArrowUp className="size-4" />
+                    </Button>
+                    <Button type="button" variant="ghost" size="icon" className="size-9" disabled={index === rules.length - 1} onClick={() => moveRule(index, 1)} aria-label={`Bajar regla ${index + 1}`} title="Bajar prioridad">
+                      <ArrowDown className="size-4" />
+                    </Button>
+                    <Button type="button" variant="ghost" size="icon" className="size-9 text-muted-foreground hover:text-destructive" onClick={() => setRules((current) => current.filter(({ id }) => id !== rule.id))} aria-label={`Eliminar regla ${index + 1}`} title="Eliminar regla">
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      <aside className="flex items-start gap-3 rounded-xl border border-border bg-secondary/50 p-4 text-sm text-muted-foreground">
+        <CircleAlert className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+        <p className="leading-relaxed">
+          Dispositivo, sistema operativo y navegador se detectan automáticamente. País y región requieren geolocalización habilitada.
+        </p>
+      </aside>
     </div>
   );
 }
