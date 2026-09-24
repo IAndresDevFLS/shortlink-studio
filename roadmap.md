@@ -6,4 +6,4 @@
 - [x] Canales: iconos por canal, creación/eliminación de rutas y estado vacío aprobado.
 - [x] A/B: variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
 - [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
-- [ ] Diseñar la sección Agenda.
+- [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
