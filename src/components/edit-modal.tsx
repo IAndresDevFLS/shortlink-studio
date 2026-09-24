@@ -100,7 +100,7 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-title"
-        className="modal-enter relative flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated"
+        className={`modal-enter relative flex max-h-[90vh] w-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated ${section === "agenda" ? "max-w-5xl" : "max-w-3xl"}`}
       >
         <header className="flex items-center justify-between border-b border-border px-6 py-5 sm:px-8">
           <div className="flex items-center gap-3">
@@ -221,22 +221,7 @@ export function EditModal({ open, url, onClose }: EditModalProps) {
             {section === "canales" && <ChannelsPanel />}
             {section === "ab" && <AbPanel />}
             {section === "dispositivo" && <DeviceLocationPanel />}
-            {section !== "general" && section !== "destinos" && section !== "canales" && section !== "ab" && section !== "dispositivo" && (
-              <div
-                role="tabpanel"
-                id={`panel-${section}`}
-                aria-labelledby={`tab-${section}`}
-                className="flex flex-col items-center gap-3 px-6 py-16 text-center sm:px-8"
-              >
-                <span className="flex size-12 items-center justify-center rounded-xl bg-accent text-primary" aria-hidden="true">
-                  <PencilLine className="size-5" />
-                </span>
-                <p className="font-display text-lg font-semibold text-foreground">Sección en construcción</p>
-                <p className="max-w-sm text-sm text-muted-foreground">
-                  Diseñaremos esta sección a continuación, una por una.
-                </p>
-              </div>
-            )}
+            {section === "agenda" && <SchedulePanel url={url} />}
         </div>
 
         <div className="flex items-center justify-between border-t border-border bg-card px-5 py-3 sm:px-8">
@@ -873,6 +858,301 @@ function DeviceLocationPanel() {
         </p>
       </aside>
     </div>
+  );
+}
+
+type ScheduleRepeat = "once" | "weekly";
+
+interface ScheduleWindow {
+  id: number;
+  name: string;
+  repeat: ScheduleRepeat;
+  days: number[];
+  start: string;
+  end: string;
+  repeatUntil: string;
+  url: string;
+  webhookId?: string;
+  clicks: number;
+  conversions: number;
+}
+
+const WEEK_DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+
+const INITIAL_SCHEDULE_WINDOWS: ScheduleWindow[] = [
+  {
+    id: 1,
+    name: "Campaña de lanzamiento",
+    repeat: "once",
+    days: [],
+    start: "2026-09-24T18:35",
+    end: "2026-09-29T17:34",
+    repeatUntil: "",
+    url: "https://www.xataka.com/medicina-y-salud/preocupante-hallazgo-universidad-espanola",
+    webhookId: "6ab5a578460ab33b4ae028bf",
+    clicks: 0,
+    conversions: 0,
+  },
+];
+
+function SchedulePanel({ url }: { url: string }) {
+  const [timezone, setTimezone] = useState("America/Bogota");
+  const [windows, setWindows] = useState<ScheduleWindow[]>(INITIAL_SCHEDULE_WINDOWS);
+  const [saved, setSaved] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const updateWindow = (id: number, changes: Partial<ScheduleWindow>) => {
+    setWindows((current) => current.map((window) => window.id === id ? { ...window, ...changes } : window));
+  };
+
+  const addWindow = () => {
+    const nextId = Math.max(0, ...windows.map(({ id }) => id)) + 1;
+    setWindows((current) => [...current, {
+      id: nextId,
+      name: "",
+      repeat: "once",
+      days: [],
+      start: "",
+      end: "",
+      repeatUntil: "",
+      url: "",
+      clicks: 0,
+      conversions: 0,
+    }]);
+  };
+
+  const moveWindow = (index: number, direction: -1 | 1) => {
+    const target = index + direction;
+    if (target < 0 || target >= windows.length) return;
+    setWindows((current) => {
+      const next = [...current];
+      const first = next[index];
+      const second = next[target];
+      if (!first || !second) return current;
+      next[index] = second;
+      next[target] = first;
+      return next;
+    });
+  };
+
+  const toggleDay = (window: ScheduleWindow, day: number) => {
+    updateWindow(window.id, {
+      days: window.days.includes(day)
+        ? window.days.filter((currentDay) => currentDay !== day)
+        : [...window.days, day].sort(),
+    });
+  };
+
+  const saveSchedule = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setWindows((current) => current.map((window, index) => ({
+      ...window,
+      webhookId: window.webhookId ?? `6ab5a578460ab33b4ae${String(300 + index).padStart(4, "0")}`,
+    })));
+    setSaved(true);
+    window.setTimeout(() => setSaved(false), 1800);
+  };
+
+  const copyScheduleId = async (id: string) => {
+    await navigator.clipboard.writeText(id);
+    setCopiedId(id);
+    window.setTimeout(() => setCopiedId(null), 1600);
+  };
+
+  return (
+    <form
+      role="tabpanel"
+      id="panel-agenda"
+      aria-labelledby="tab-agenda"
+      onSubmit={saveSchedule}
+      className="space-y-6 px-6 py-6 sm:px-8 sm:py-8"
+    >
+      <div className="flex items-start gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-primary" aria-hidden="true">
+          <CalendarClock className="size-5" />
+        </span>
+        <div>
+          <h3 className="font-display text-lg font-semibold text-foreground">Agenda de destinos</h3>
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+            Programa qué destino se activa en cada horario. Fuera de esas ventanas se usará el destino principal.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="schedule-timezone">Zona horaria de la campaña</Label>
+        <Select value={timezone} onValueChange={setTimezone}>
+          <SelectTrigger id="schedule-timezone" className="h-12 w-full rounded-lg bg-background sm:max-w-sm">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="America/Bogota">America/Bogota (UTC-5)</SelectItem>
+            <SelectItem value="America/Mexico_City">America/Mexico_City (UTC-6)</SelectItem>
+            <SelectItem value="America/New_York">America/New_York (UTC-4)</SelectItem>
+            <SelectItem value="Europe/Madrid">Europe/Madrid (UTC+2)</SelectItem>
+          </SelectContent>
+        </Select>
+        <p className="text-xs text-muted-foreground">Todas las horas se interpretan en esta zona.</p>
+      </div>
+
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.45fr)_minmax(17rem,0.8fr)]">
+        <section aria-labelledby="schedule-builder-title" className="space-y-4">
+          <div className="flex items-end justify-between gap-3">
+            <div>
+              <h4 id="schedule-builder-title" className="font-display text-base font-semibold text-foreground">Configurar ventanas</h4>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">La primera ventana que coincida tendrá prioridad.</p>
+            </div>
+            <span className="shrink-0 rounded-full bg-accent px-3 py-1 text-xs font-semibold text-primary">{windows.length} {windows.length === 1 ? "ventana" : "ventanas"}</span>
+          </div>
+
+          {windows.length === 0 ? (
+            <div className="flex min-h-48 flex-col items-center justify-center rounded-xl border border-dashed border-border bg-secondary/30 px-6 py-8 text-center">
+              <CalendarClock className="mb-3 size-6 text-primary" aria-hidden="true" />
+              <p className="font-display text-sm font-semibold text-foreground">Aún no hay ventanas programadas</p>
+              <p className="mt-1 max-w-sm text-sm leading-relaxed text-muted-foreground">Agrega una para dirigir visitas a otro destino en fechas u horarios específicos.</p>
+            </div>
+          ) : (
+            <div className="space-y-4" aria-live="polite">
+              {windows.map((scheduleWindow, index) => (
+                <article key={scheduleWindow.id} className="overflow-hidden rounded-xl border border-border bg-card shadow-subtle transition-colors hover:border-primary/30">
+                  <header className="flex flex-col gap-3 border-b border-border bg-secondary/45 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="flex w-full min-w-0 flex-1 items-center gap-3">
+                      <span className="shrink-0 rounded-full border border-primary/20 bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase text-primary">Programada</span>
+                      <Label htmlFor={`schedule-name-${scheduleWindow.id}`} className="sr-only">Nombre de la ventana {index + 1}</Label>
+                      <Input
+                        id={`schedule-name-${scheduleWindow.id}`}
+                        value={scheduleWindow.name}
+                        onChange={(event) => updateWindow(scheduleWindow.id, { name: event.target.value })}
+                        placeholder="Nombre de la ventana (ej. Black Friday)"
+                        className="h-10 w-0 min-w-0 flex-1 bg-card text-sm"
+                      />
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1 self-end sm:self-auto">
+                      <Button type="button" variant="ghost" size="icon" className="size-10" disabled={index === 0} onClick={() => moveWindow(index, -1)} aria-label={`Subir ventana ${index + 1}`} title="Subir prioridad"><ArrowUp className="size-4" /></Button>
+                      <Button type="button" variant="ghost" size="icon" className="size-10" disabled={index === windows.length - 1} onClick={() => moveWindow(index, 1)} aria-label={`Bajar ventana ${index + 1}`} title="Bajar prioridad"><ArrowDown className="size-4" /></Button>
+                      <Button type="button" variant="ghost" size="icon" className="size-10 text-muted-foreground hover:text-destructive" onClick={() => setWindows((current) => current.filter(({ id }) => id !== scheduleWindow.id))} aria-label={`Eliminar ventana ${index + 1}`} title="Eliminar ventana"><Trash2 className="size-4" /></Button>
+                    </div>
+                  </header>
+
+                  <div className="space-y-5 p-4 sm:p-5">
+                    <fieldset>
+                      <legend className="mb-2 text-sm font-semibold text-foreground">Repetición</legend>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button type="button" variant="outline" aria-pressed={scheduleWindow.repeat === "once"} onClick={() => updateWindow(scheduleWindow.id, { repeat: "once", days: [] })} className={`h-11 rounded-lg ${scheduleWindow.repeat === "once" ? "border-primary bg-accent text-accent-foreground ring-1 ring-primary" : "bg-card"}`}>Una vez</Button>
+                        <Button type="button" variant="outline" aria-pressed={scheduleWindow.repeat === "weekly"} onClick={() => updateWindow(scheduleWindow.id, { repeat: "weekly" })} className={`h-11 rounded-lg ${scheduleWindow.repeat === "weekly" ? "border-primary bg-accent text-accent-foreground ring-1 ring-primary" : "bg-card"}`}>Semanal</Button>
+                      </div>
+                    </fieldset>
+
+                    {scheduleWindow.repeat === "weekly" ? (
+                      <fieldset>
+                        <legend className="mb-2 text-sm font-semibold text-foreground">Días activos</legend>
+                        <div className="grid grid-cols-7 gap-1 rounded-lg border border-border bg-background p-1">
+                          {WEEK_DAYS.map((day, dayIndex) => {
+                            const selected = scheduleWindow.days.includes(dayIndex);
+                            return (
+                              <Button key={day} type="button" variant="ghost" aria-pressed={selected} onClick={() => toggleDay(scheduleWindow, dayIndex)} className={`h-10 min-w-0 rounded-md px-1 text-xs ${selected ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground" : "text-muted-foreground"}`} title={day}>{day.slice(0, 1)}</Button>
+                            );
+                          })}
+                        </div>
+                        <p className="mt-2 text-xs text-muted-foreground">Selecciona uno o varios días de la semana.</p>
+                      </fieldset>
+                    ) : null}
+
+                    <div className={`grid gap-4 ${scheduleWindow.repeat === "weekly" ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
+                      <div className="space-y-2">
+                        <Label htmlFor={`schedule-start-${scheduleWindow.id}`}>Inicio</Label>
+                        <Input id={`schedule-start-${scheduleWindow.id}`} type={scheduleWindow.repeat === "weekly" ? "time" : "datetime-local"} value={scheduleWindow.start} onChange={(event) => updateWindow(scheduleWindow.id, { start: event.target.value })} required />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor={`schedule-end-${scheduleWindow.id}`}>Fin</Label>
+                        <Input id={`schedule-end-${scheduleWindow.id}`} type={scheduleWindow.repeat === "weekly" ? "time" : "datetime-local"} value={scheduleWindow.end} onChange={(event) => updateWindow(scheduleWindow.id, { end: event.target.value })} required />
+                      </div>
+                      {scheduleWindow.repeat === "weekly" ? (
+                        <div className="space-y-2">
+                          <Label htmlFor={`schedule-until-${scheduleWindow.id}`}>Repetir hasta <span className="font-normal text-muted-foreground">(opcional)</span></Label>
+                          <Input id={`schedule-until-${scheduleWindow.id}`} type="date" value={scheduleWindow.repeatUntil} onChange={(event) => updateWindow(scheduleWindow.id, { repeatUntil: event.target.value })} />
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor={`schedule-url-${scheduleWindow.id}`}>URL de destino</Label>
+                      <Input id={`schedule-url-${scheduleWindow.id}`} type="url" value={scheduleWindow.url} onChange={(event) => updateWindow(scheduleWindow.id, { url: event.target.value })} placeholder="https://dominio.com/destino" className="font-mono text-sm" required />
+                      <p className="text-xs text-muted-foreground">{scheduleWindow.webhookId ? "Esta ventana ya tiene un ID de seguimiento." : "El ID se asignará al guardar."}</p>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <Button type="button" variant="outline" onClick={addWindow} className="h-12 w-full rounded-xl border-dashed bg-card text-primary hover:bg-accent">
+            <Plus className="size-4" /> Agregar ventana
+          </Button>
+        </section>
+
+        <aside aria-labelledby="schedule-summary-title" className="space-y-4 lg:sticky lg:top-0">
+          <div>
+            <h4 id="schedule-summary-title" className="font-display text-base font-semibold text-foreground">Resumen de agenda</h4>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Así se aplicarán tus destinos en {timezone.replace("_", " ")}.</p>
+          </div>
+
+          <div className="rounded-xl border border-primary/20 bg-accent p-4">
+            <div className="flex items-center gap-2 text-sm font-semibold text-accent-foreground">
+              <Link2 className="size-4 text-primary" aria-hidden="true" /> Fuera de la agenda
+            </div>
+            <p className="mt-2 break-all font-mono text-xs leading-relaxed text-muted-foreground">{url}</p>
+          </div>
+
+          {windows.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-border bg-secondary/30 p-5 text-center">
+              <p className="text-sm font-medium text-muted-foreground">El destino principal se usará todo el tiempo.</p>
+            </div>
+          ) : (
+            <ol className="space-y-3">
+              {windows.map((scheduleWindow, index) => {
+                const rate = scheduleWindow.clicks > 0 ? (scheduleWindow.conversions / scheduleWindow.clicks) * 100 : 0;
+                const weeklyDays = scheduleWindow.days.map((day) => WEEK_DAYS[day]).filter(Boolean).join(", ");
+                return (
+                  <li key={scheduleWindow.id} className="rounded-xl border border-border bg-card p-4 shadow-subtle">
+                    <div className="flex items-start gap-3">
+                      <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">{index + 1}</span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-semibold text-foreground">{scheduleWindow.name || `Ventana ${index + 1}`}</p>
+                        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                          {scheduleWindow.repeat === "weekly" ? `${weeklyDays || "Sin días"} · ${scheduleWindow.start || "--:--"}–${scheduleWindow.end || "--:--"}` : `${scheduleWindow.start ? scheduleWindow.start.replace("T", " · ") : "Sin inicio"} → ${scheduleWindow.end ? scheduleWindow.end.replace("T", " · ") : "Sin fin"}`}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="mt-3 truncate font-mono text-[11px] text-muted-foreground" title={scheduleWindow.url}>{scheduleWindow.url || "Destino pendiente"}</p>
+                    {scheduleWindow.webhookId ? (
+                      <div className="mt-3 space-y-3 border-t border-border pt-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="truncate font-mono text-[10px] text-primary">{scheduleWindow.webhookId}</span>
+                          <Button type="button" variant="ghost" size="icon" className="size-9 shrink-0" onClick={() => copyScheduleId(scheduleWindow.webhookId ?? "")} aria-label={`Copiar ID de ${scheduleWindow.name || `ventana ${index + 1}`}`} title="Copiar ID">{copiedId === scheduleWindow.webhookId ? <Check className="size-4 text-primary" /> : <Copy className="size-4" />}</Button>
+                        </div>
+                        <dl className="grid grid-cols-3 gap-1 text-center">
+                          <div><dt className="text-[10px] text-muted-foreground">Clics</dt><dd className="mt-1 text-sm font-semibold text-foreground">{scheduleWindow.clicks}</dd></div>
+                          <div><dt className="text-[10px] text-muted-foreground">Conversiones</dt><dd className="mt-1 text-sm font-semibold text-foreground">{scheduleWindow.conversions}</dd></div>
+                          <div><dt className="text-[10px] text-muted-foreground">Tasa</dt><dd className="mt-1 text-sm font-semibold text-primary">{rate.toFixed(1)}%</dd></div>
+                        </dl>
+                      </div>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </aside>
+      </div>
+
+      <div className="flex flex-col-reverse gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-end">
+        <p role="status" className="min-h-5 text-sm font-medium text-primary">{saved ? <span className="inline-flex items-center gap-2"><Check className="size-4" /> Agenda guardada</span> : copiedId ? "ID copiado al portapapeles" : null}</p>
+        <Button type="submit" variant="premium" className="h-11 rounded-full px-6" disabled={windows.some((scheduleWindow) => !scheduleWindow.url || !scheduleWindow.start || !scheduleWindow.end || (scheduleWindow.repeat === "weekly" && scheduleWindow.days.length === 0))}>
+          Guardar agenda <Check className="size-4" />
+        </Button>
+      </div>
+    </form>
   );
 }
 
