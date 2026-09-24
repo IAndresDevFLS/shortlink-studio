@@ -933,7 +933,7 @@ function AbPanel() {
                   </header>
                   <div className="mx-auto my-5 flex max-w-64 flex-col items-center gap-1 text-center text-xs font-semibold text-primary-foreground">
                     <div className="flex h-14 w-full items-center justify-center rounded-t-lg bg-foreground px-3"><MousePointerClick className="mr-2 size-4" /> {variant.clicks.toLocaleString("es-ES")} clics</div>
-                    <div className="flex h-14 items-center justify-center rounded-b-lg bg-primary px-3 transition-[width]" style={{ width: `${conversionWidth}%`, minWidth: "7.5rem" }}><Check className="mr-2 size-4" /> {variant.conversions.toLocaleString("es-ES")} conversiones</div>
+                    <div className="flex h-14 min-w-[7.5rem] items-center justify-center rounded-b-lg bg-primary px-3 transition-[width]" style={{ width: `${conversionWidth}%` }}><Check className="mr-2 size-4" /> {variant.conversions.toLocaleString("es-ES")} conversiones</div>
                   </div>
                   <dl className="grid grid-cols-3 gap-2 border-t border-border pt-3 text-center">
                     <div><dt className="text-[11px] text-muted-foreground">Clics</dt><dd className="mt-1 text-sm font-semibold text-foreground">{variant.clicks.toLocaleString("es-ES")}</dd></div>
