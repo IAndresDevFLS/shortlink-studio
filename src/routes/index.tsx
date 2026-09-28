@@ -226,6 +226,7 @@ function DashboardPage() {
   const safeTablePage = Math.min(tablePage, tablePages - 1);
   const tableSlice = tableRows.slice(safeTablePage * TABLE_PAGE_SIZE, safeTablePage * TABLE_PAGE_SIZE + TABLE_PAGE_SIZE);
   const weekTrend = TREND_DATA.week.values.reduce((sum, value) => sum + value, 0);
+  const weekMax = Math.max(...TREND_DATA.week.values);
 
   return (
     <main id="main" className="technical-grid min-h-dvh bg-background pb-12">
