@@ -13,9 +13,6 @@ import {
   PencilLine,
   Plus,
   QrCode,
-  Search,
-  Sparkles,
-  Trash2,
   TrendingUp,
 } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -534,7 +531,7 @@ function DashboardPage() {
                 </div>
                 <div className="flex h-10 items-end gap-1" aria-hidden="true">
                   {TREND_DATA.week.values.map((value, index) => (
-                    <div key={index} className="w-1.5 rounded-full bg-primary/20" style={{ height: `${Math.max(15, (value / 31) * 100)}%` }} data-highlight={index === 4 || undefined} />
+                    <div key={index} className={`w-1.5 rounded-full ${value === weekMax ? "bg-primary" : "bg-primary/20"}`} style={{ height: `${Math.max(15, (value / 31) * 100)}%` }} />
                   ))}
                 </div>
               </div>
