@@ -413,23 +413,23 @@ function DashboardPage() {
                 </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[720px] text-left text-sm">
+                <table className="w-full min-w-[620px] text-left text-sm">
                   <caption className="sr-only">Listado de shortlinks generados con estado, clics y acciones</caption>
                   <thead className="bg-secondary text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     <tr>
                       <th scope="col" className="px-6 py-4">Nombre</th>
                       <th scope="col" className="px-4 py-4">Enlace corto</th>
                       <th scope="col" className="px-4 py-4">Destino</th>
-                      <th scope="col" className="px-4 py-4">Días restantes</th>
+                      <th scope="col" className="px-4 py-4">Días</th>
                       <th scope="col" className="px-4 py-4 text-right">Clics</th>
-                      <th scope="col" className="px-6 py-4 text-right">Acciones</th>
+                      <th scope="col" className="px-4 py-4 text-right">Acciones</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {tableSlice.map((link) => (
                       <tr key={link.id} className="transition-colors hover:bg-secondary/40">
-                        <td className="px-6 py-4">
-                          <p className="max-w-52 truncate font-medium text-foreground">{link.name}</p>
+                        <td className="px-5 py-4">
+                          <p className="max-w-44 truncate font-medium text-foreground">{link.name}</p>
                           {link.tags.length > 0 && (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {link.tags.map((tag) => (
@@ -439,23 +439,23 @@ function DashboardPage() {
                           )}
                         </td>
                         <td className="px-4 py-4">
-                          <span className="font-mono text-xs text-primary">{link.shortUrl}</span>
-                          <span className={`ml-2 inline-flex h-5 items-center rounded-full px-2 text-[10px] font-bold ${link.expired ? "bg-destructive/10 text-destructive" : "bg-accent text-accent-foreground"}`}>
+                          <span className="block font-mono text-xs text-primary">{link.shortUrl}</span>
+                          <span className={`mt-1 inline-flex h-5 items-center rounded-full px-2 text-[10px] font-bold ${link.expired ? "bg-destructive/10 text-destructive" : "bg-accent text-accent-foreground"}`}>
                             {link.expired ? "EXPIRADO" : "ACTIVO"}
                           </span>
                         </td>
-                        <td className="max-w-44 truncate px-4 py-4 text-muted-foreground">{link.destination}</td>
-                        <td className="px-4 py-4 text-muted-foreground">{link.expired ? "—" : `${link.daysLeft} días`}</td>
-                        <td className="px-4 py-4 text-right font-semibold tabular-nums text-foreground">{formatNumber(link.clicks)}</td>
-                        <td className="px-6 py-4">
+                        <td className="max-w-32 truncate px-4 py-4 text-muted-foreground">{link.destination}</td>
+                        <td className="whitespace-nowrap px-4 py-4 text-muted-foreground">{link.expired ? "—" : `${link.daysLeft} días`}</td>
+                        <td className="whitespace-nowrap px-4 py-4 text-right font-semibold tabular-nums text-foreground">{formatNumber(link.clicks)}</td>
+                        <td className="px-4 py-4">
                           <div className="flex justify-end gap-1">
-                            <Button type="button" variant="ghost" size="icon-lg" className="size-8 text-muted-foreground hover:text-primary" onClick={() => openEdit(link)} aria-label={`Editar ${link.name}`}>
+                            <Button type="button" variant="ghost" size="icon-lg" className="size-7 text-muted-foreground hover:text-primary" onClick={() => openEdit(link)} aria-label={`Editar ${link.name}`}>
                               <PencilLine className="size-4" />
                             </Button>
-                            <Button type="button" variant="ghost" size="icon-lg" className="size-8 text-muted-foreground hover:text-primary" onClick={() => openQr(link)} aria-label={`Ver código QR de ${link.name}`}>
+                            <Button type="button" variant="ghost" size="icon-lg" className="size-7 text-muted-foreground hover:text-primary" onClick={() => openQr(link)} aria-label={`Ver código QR de ${link.name}`}>
                               <QrCode className="size-4" />
                             </Button>
-                            <Button type="button" variant="ghost" size="icon-lg" className="size-8 text-muted-foreground hover:text-destructive" onClick={() => openDelete(link)} aria-label={`Eliminar ${link.name}`}>
+                            <Button type="button" variant="ghost" size="icon-lg" className="size-7 text-muted-foreground hover:text-destructive" onClick={() => openDelete(link)} aria-label={`Eliminar ${link.name}`}>
                               <Trash2 className="size-4" />
                             </Button>
                           </div>
