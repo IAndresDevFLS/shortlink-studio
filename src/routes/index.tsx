@@ -13,6 +13,8 @@ import {
   PencilLine,
   Plus,
   QrCode,
+  Search,
+  Trash2,
   TrendingUp,
 } from "lucide-react";
 import { useMemo, useState } from "react";
