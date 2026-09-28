@@ -7,4 +7,4 @@
 - [x] A/B: variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
 - [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
 - [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
-- [x] Dashboard: vista principal esmeralda (hero con filtros, KPIs, actividad de clics, clics por enlace, Top 5, plan, tabla con búsqueda/acciones y modales integrados).
+- [x] Dashboard: composición “Informe vivo” con cabecera editorial, gráfica panorámica, banda comparativa y tabla protagonista a ancho completo.

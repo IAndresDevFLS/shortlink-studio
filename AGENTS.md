@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Project architecture
+
+- Keep dashboard analytics in an editorial full-width flow; why: the primary chart and shortlink table must remain the page's visual and operational focus.

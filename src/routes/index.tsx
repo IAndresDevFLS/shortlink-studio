@@ -196,7 +196,6 @@ function DashboardPage() {
   // Ranking por clics (barras + Top 5)
   const ranked = useMemo(() => [...filtered].sort((a, b) => b.clicks - a.clicks), [filtered]);
   const top5 = ranked.slice(0, 5);
-  const maxTop = Math.max(...top5.map((link) => link.clicks), 1);
 
   const BAR_PAGE_SIZE = 7;
   const sortedBars = useMemo(
@@ -231,33 +230,35 @@ function DashboardPage() {
   return (
     <main id="main" className="technical-grid min-h-dvh bg-background pb-12">
       <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-8">
-        {/* Hero */}
-        <header className="bg-brand-gradient relative overflow-hidden rounded-3xl p-6 text-primary-foreground shadow-elevated md:p-8">
+        {/* Cabecera editorial */}
+        <header className="border-b border-border pb-6 pt-2">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="space-y-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-3 py-1 text-xs font-semibold tracking-wide">
-                <span className="size-2 rounded-full bg-primary-foreground" aria-hidden="true" />
+              <span className="inline-flex items-center gap-2 text-xs font-bold uppercase text-primary">
+                <span className="size-2 rounded-full bg-primary" aria-hidden="true" />
                 PLAN FREE ACTIVO
               </span>
-              <h1 className="font-display text-3xl font-bold tracking-tight md:text-4xl">Dashboard general</h1>
-              <p className="max-w-md text-sm leading-relaxed text-primary-foreground/80">
-                Gestiona tus enlaces y analiza el rendimiento de tus campañas en tiempo real.
-              </p>
+              <div>
+                <h1 className="font-display text-3xl font-bold text-foreground md:text-4xl">Dashboard general</h1>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                  Una lectura clara del rendimiento de tus enlaces, desde la actividad general hasta cada destino.
+                </p>
+              </div>
             </div>
 
             <div className="flex flex-col gap-3 lg:items-end">
               <div className="flex flex-wrap items-center gap-2">
-                <div className="flex items-center gap-1 rounded-full border border-primary-foreground/20 bg-primary-foreground/10 p-1.5" role="group" aria-label="Rango de fechas">
+                <div className="flex items-center gap-1 rounded-full border border-border bg-card p-1.5 shadow-subtle" role="group" aria-label="Rango de fechas">
                   {RANGE_LABELS.map(({ key, label }) => (
                     <button
                       key={key}
                       type="button"
                       onClick={() => { setRange(key); setShowCustom(false); }}
                       aria-pressed={range === key}
-                      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 ${
+                      className={`rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                         range === key
-                          ? "bg-primary-foreground text-primary shadow-subtle"
-                          : "hover:bg-primary-foreground/10"
+                          ? "bg-accent text-accent-foreground"
+                          : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                       }`}
                     >
                       {label}
@@ -268,14 +269,14 @@ function DashboardPage() {
                     onClick={() => { setShowCustom((value) => !value); setRange("custom"); }}
                     aria-pressed={showCustom}
                     aria-label="Rango personalizado"
-                    className={`rounded-full p-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60 ${
-                      showCustom || range === "custom" ? "bg-primary-foreground text-primary shadow-subtle" : "hover:bg-primary-foreground/10"
+                    className={`rounded-full p-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                      showCustom || range === "custom" ? "bg-accent text-accent-foreground" : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
                     <CalendarDays className="size-5" />
                   </button>
                 </div>
-                <Button type="button" onClick={() => setCreateOpen(true)} className="h-11 rounded-full bg-primary-foreground px-5 font-semibold text-primary shadow-subtle hover:bg-primary-foreground/90">
+                <Button type="button" variant="premium" onClick={() => setCreateOpen(true)} className="h-11 rounded-full px-5 font-semibold">
                   <Plus className="size-4" /> Crear enlace
                 </Button>
               </div>
@@ -307,13 +308,14 @@ function DashboardPage() {
           <KpiCard icon={Globe} label="Dominios conectados" value={formatNumber(domains)} hint="cpt.cx · cpto.co" />
         </section>
 
-        {/* Contenido principal */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="space-y-6 lg:col-span-2">
-            {/* Actividad de clics */}
-            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+        {/* Gráfica panorámica */}
+        <section className="rounded-2xl border border-border bg-card p-5 shadow-subtle md:p-7">
               <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <h2 className="font-display text-lg font-bold text-foreground">Actividad de clics</h2>
+                <div>
+                  <p className="text-xs font-bold uppercase text-primary">Rendimiento</p>
+                  <h2 className="mt-1 font-display text-xl font-bold text-foreground">Actividad de clics</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">{formatNumber(totalClicks)} clics acumulados en el rango seleccionado</p>
+                </div>
                 <div className="flex flex-wrap items-center gap-2">
                   <Select value={chartLink} onValueChange={setChartLink}>
                     <SelectTrigger className="h-9 w-44 rounded-full bg-background text-sm" aria-label="Enlace de la tendencia">
@@ -343,16 +345,17 @@ function DashboardPage() {
                   </div>
                 </div>
               </div>
-              <div className="relative h-56 w-full">
-                <svg viewBox="0 0 100 32" preserveAspectRatio="none" className="h-full w-full" role="img" aria-label={`Clics por ${chartMode === "day" ? "hora" : chartMode === "week" ? "día" : "día del mes"}`}>
+              <div className="relative h-72 w-full md:h-96">
+                <svg viewBox="0 0 100 40" preserveAspectRatio="none" className="h-full w-full text-primary" role="img" aria-label={`Clics por ${chartMode === "day" ? "hora" : chartMode === "week" ? "día" : "día del mes"}`}>
                   <defs>
                     <linearGradient id="area-fill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="hsl(160 84% 23%)" stopOpacity="0.22" />
-                      <stop offset="100%" stopColor="hsl(160 84% 23%)" stopOpacity="0" />
+                      <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
+                      <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                     </linearGradient>
                   </defs>
+                  {[8, 16, 24, 32].map((y) => <line key={y} x1="0" x2="100" y1={y} y2={y} stroke="currentColor" strokeOpacity="0.08" strokeWidth="0.3" vectorEffect="non-scaling-stroke" />)}
                   <path d={paths.area} fill="url(#area-fill)" />
-                  <path d={paths.line} fill="none" stroke="hsl(160 84% 23%)" strokeWidth="1.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+                  <path d={paths.line} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
                 </svg>
                 <div className="flex justify-between pt-3 text-[10px] font-medium text-muted-foreground">
                   {trend.labels.map((label, index) => (
@@ -360,10 +363,11 @@ function DashboardPage() {
                   ))}
                 </div>
               </div>
-            </section>
+        </section>
 
-            {/* Clics por enlace */}
-            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
+        {/* Banda de lectura rápida */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle lg:col-span-6">
               <div className="mb-5 flex items-center justify-between gap-3">
                 <h2 className="font-display text-lg font-bold text-foreground">Clics por enlace</h2>
                 <div className="flex items-center gap-2">
@@ -396,10 +400,44 @@ function DashboardPage() {
               </ul>
             </section>
 
-            {/* Tabla */}
-            <section className="overflow-hidden rounded-2xl border border-border bg-card shadow-subtle">
+            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle lg:col-span-3">
+              <h2 className="mb-4 font-display text-lg font-bold text-foreground">Top 5 enlaces</h2>
+              <ol className="space-y-4">
+                {top5.map((link, index) => (
+                  <li key={link.id} className="flex items-center gap-3">
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground" aria-hidden="true">{index + 1}</span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-medium text-foreground">{link.name}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground">{formatNumber(link.clicks)} clics</p>
+                    </div>
+                  </li>
+                ))}
+                {top5.length === 0 && <li className="text-sm text-muted-foreground">Sin datos en el rango seleccionado.</li>}
+              </ol>
+            </section>
+
+            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle lg:col-span-3">
+              <p className="text-xs font-bold uppercase text-primary">Tendencia semanal</p>
+              <p className="mt-2 font-display text-3xl font-bold text-foreground">+{formatNumber(weekTrend)}</p>
+              <p className="text-xs text-muted-foreground">clics esta semana</p>
+              <div className="mt-6 flex h-24 items-end gap-2" aria-hidden="true">
+                {TREND_DATA.week.values.map((value, index) => (
+                  <div key={index} className={`flex-1 rounded-t-sm ${value === weekMax ? "bg-primary" : "bg-primary/20"}`} style={{ height: `${Math.max(15, (value / 31) * 100)}%` }} />
+                ))}
+              </div>
+              <p className="mt-4 flex items-center gap-1 text-xs font-semibold text-primary">
+                <TrendingUp className="size-3.5" aria-hidden="true" /> Viernes es tu mejor día
+              </p>
+            </section>
+        </div>
+
+        {/* Tabla protagonista */}
+        <section className="overflow-hidden rounded-2xl border border-border bg-card shadow-subtle">
               <div className="flex flex-col gap-4 border-b border-border p-6 md:flex-row md:items-center md:justify-between">
-                <h2 className="font-display text-lg font-bold text-foreground">Shortlinks generados</h2>
+                <div>
+                  <p className="text-xs font-bold uppercase text-primary">Gestión</p>
+                  <h2 className="mt-1 font-display text-xl font-bold text-foreground">Shortlinks generados</h2>
+                </div>
                 <div className="relative md:w-72">
                   <Search className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
                   <Input
@@ -413,23 +451,23 @@ function DashboardPage() {
                 </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[620px] text-left text-sm">
+                <table className="w-full min-w-[960px] table-fixed text-left text-sm">
                   <caption className="sr-only">Listado de shortlinks generados con estado, clics y acciones</caption>
                   <thead className="bg-secondary text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     <tr>
-                      <th scope="col" className="px-6 py-4">Nombre</th>
-                      <th scope="col" className="px-4 py-4">Enlace corto</th>
-                      <th scope="col" className="px-4 py-4">Destino</th>
-                      <th scope="col" className="px-4 py-4">Días</th>
-                      <th scope="col" className="px-4 py-4 text-right">Clics</th>
-                      <th scope="col" className="px-4 py-4 text-right">Acciones</th>
+                      <th scope="col" className="w-[22%] px-6 py-4">Nombre</th>
+                      <th scope="col" className="w-[17%] px-4 py-4">Enlace corto</th>
+                      <th scope="col" className="w-[27%] px-4 py-4">Destino</th>
+                      <th scope="col" className="w-[12%] px-4 py-4">Estado</th>
+                      <th scope="col" className="w-[9%] px-4 py-4 text-right">Clics</th>
+                      <th scope="col" className="w-[13%] px-4 py-4 text-right">Acciones</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
                     {tableSlice.map((link) => (
                       <tr key={link.id} className="transition-colors hover:bg-secondary/40">
                         <td className="px-5 py-4">
-                          <p className="max-w-44 truncate font-medium text-foreground">{link.name}</p>
+                          <p className="truncate font-medium text-foreground">{link.name}</p>
                           {link.tags.length > 0 && (
                             <div className="mt-1 flex flex-wrap gap-1">
                               {link.tags.map((tag) => (
@@ -439,13 +477,14 @@ function DashboardPage() {
                           )}
                         </td>
                         <td className="px-4 py-4">
-                          <span className="block font-mono text-xs text-primary">{link.shortUrl}</span>
-                          <span className={`mt-1 inline-flex h-5 items-center rounded-full px-2 text-[10px] font-bold ${link.expired ? "bg-destructive/10 text-destructive" : "bg-accent text-accent-foreground"}`}>
-                            {link.expired ? "EXPIRADO" : "ACTIVO"}
+                          <span className="block truncate font-mono text-xs text-primary">{link.shortUrl}</span>
+                        </td>
+                        <td className="px-4 py-4"><span className="block truncate text-muted-foreground" title={link.destination}>{link.destination}</span></td>
+                        <td className="px-4 py-4">
+                          <span className={`inline-flex h-6 items-center rounded-full px-2 text-[10px] font-bold ${link.expired ? "bg-destructive/10 text-destructive" : "bg-accent text-accent-foreground"}`}>
+                            {link.expired ? "EXPIRADO" : `${link.daysLeft} DÍAS`}
                           </span>
                         </td>
-                        <td className="max-w-32 truncate px-4 py-4 text-muted-foreground">{link.destination}</td>
-                        <td className="whitespace-nowrap px-4 py-4 text-muted-foreground">{link.expired ? "—" : `${link.daysLeft} días`}</td>
                         <td className="whitespace-nowrap px-4 py-4 text-right font-semibold tabular-nums text-foreground">{formatNumber(link.clicks)}</td>
                         <td className="px-4 py-4">
                           <div className="flex justify-end gap-1">
@@ -481,68 +520,28 @@ function DashboardPage() {
                   <Button type="button" variant="outline" size="sm" className="h-8 rounded-full px-4 text-xs" onClick={() => setTablePage((page) => Math.min(tablePages - 1, page + 1))} disabled={safeTablePage >= tablePages - 1}>Siguiente</Button>
                 </div>
               </div>
-            </section>
-          </div>
+        </section>
 
-          {/* Columna derecha */}
-          <div className="space-y-6">
-            <section className="bg-brand-gradient rounded-2xl p-6 text-primary-foreground shadow-elevated">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-primary-foreground/70">Tu plan</p>
-              <h2 className="mt-1 font-display text-2xl font-bold">Free</h2>
-              <p className="mt-1 text-xs text-primary-foreground/80">25 shortlinks · 1 dominio · métricas 30 días</p>
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row lg:flex-col">
-                <Button type="button" className="h-10 flex-1 rounded-full bg-primary-foreground px-4 text-sm font-semibold text-primary shadow-subtle hover:bg-primary-foreground/90">Cambiar plan</Button>
-                <Button type="button" variant="ghost" className="h-10 flex-1 rounded-full px-4 text-sm text-primary-foreground/80 hover:bg-primary-foreground/10 hover:text-primary-foreground">Cancelar plan</Button>
-              </div>
-            </section>
-
-            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
-              <h2 className="mb-4 font-display text-lg font-bold text-foreground">Top 5 enlaces</h2>
-              <ol className="space-y-4">
-                {top5.map((link, index) => (
-                  <li key={link.id} className="flex items-center gap-3">
-                    <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground" aria-hidden="true">{index + 1}</span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-foreground">{link.name}</p>
-                      <div className="mt-1 h-1 w-full overflow-hidden rounded-full bg-secondary">
-                        <div className="h-full rounded-full bg-primary" style={{ width: `${Math.max(6, (link.clicks / maxTop) * 100)}%` }} />
-                      </div>
-                    </div>
-                    <span className="text-sm font-semibold tabular-nums text-foreground">{formatNumber(link.clicks)}</span>
-                  </li>
-                ))}
-                {top5.length === 0 && <li className="text-sm text-muted-foreground">Sin datos en el rango seleccionado.</li>}
-              </ol>
-            </section>
-
-            <section className="relative overflow-hidden rounded-2xl bg-foreground p-6 text-background">
-              <div className="absolute -right-10 -top-10 size-32 rounded-full bg-accent/20 blur-3xl" aria-hidden="true" />
-              <h2 className="mb-3 flex items-center gap-2 font-display text-sm font-bold">
-                <Lightbulb className="size-4 text-accent-foreground" aria-hidden="true" /> Consejos Compacto
-              </h2>
-              <p className="text-xs leading-relaxed opacity-80">
-                Los enlaces con nombres personalizados reciben hasta <strong className="font-semibold opacity-100">40% más clics</strong> que los aleatorios. Usa etiquetas para agrupar campañas.
-              </p>
-            </section>
-
-            <section className="rounded-2xl border border-border bg-card p-6 shadow-subtle">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Tendencia semanal</p>
-              <div className="mt-2 flex items-end justify-between">
-                <div>
-                  <p className="font-display text-2xl font-bold text-foreground">+{formatNumber(weekTrend)}</p>
-                  <p className="text-xs text-muted-foreground">clics esta semana</p>
-                </div>
-                <div className="flex h-10 items-end gap-1" aria-hidden="true">
-                  {TREND_DATA.week.values.map((value, index) => (
-                    <div key={index} className={`w-1.5 rounded-full ${value === weekMax ? "bg-primary" : "bg-primary/20"}`} style={{ height: `${Math.max(15, (value / 31) * 100)}%` }} />
-                  ))}
-                </div>
-              </div>
-              <p className="mt-3 flex items-center gap-1 text-xs font-semibold text-primary">
-                <TrendingUp className="size-3.5" aria-hidden="true" /> Viernes es tu mejor día
-              </p>
-            </section>
-          </div>
+        {/* Información secundaria */}
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <section className="flex flex-col justify-between gap-4 rounded-2xl border border-border bg-card p-5 shadow-subtle sm:flex-row sm:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase text-primary">Tu plan</p>
+              <h2 className="mt-1 font-display text-xl font-bold text-foreground">Free</h2>
+              <p className="mt-1 text-xs text-muted-foreground">25 shortlinks · 1 dominio · métricas 30 días</p>
+            </div>
+            <div className="flex gap-2">
+              <Button type="button" variant="premium" className="h-10 rounded-full px-4 text-sm font-semibold">Cambiar plan</Button>
+              <Button type="button" variant="ghost" className="h-10 rounded-full px-4 text-sm text-muted-foreground">Cancelar</Button>
+            </div>
+          </section>
+          <section className="flex items-start gap-4 rounded-2xl border border-border bg-accent/50 p-5">
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-card text-primary shadow-subtle"><Lightbulb className="size-5" aria-hidden="true" /></span>
+            <div>
+              <h2 className="font-display text-sm font-bold text-foreground">Consejo Compacto</h2>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">Los nombres personalizados reciben hasta <strong className="font-semibold text-foreground">40% más clics</strong>. Usa etiquetas para agrupar campañas.</p>
+            </div>
+          </section>
         </div>
       </div>
 
