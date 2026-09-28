@@ -196,7 +196,6 @@ function DashboardPage() {
   // Ranking por clics (barras + Top 5)
   const ranked = useMemo(() => [...filtered].sort((a, b) => b.clicks - a.clicks), [filtered]);
   const top5 = ranked.slice(0, 5);
-  const maxTop = Math.max(...top5.map((link) => link.clicks), 1);
 
   const BAR_PAGE_SIZE = 7;
   const sortedBars = useMemo(
