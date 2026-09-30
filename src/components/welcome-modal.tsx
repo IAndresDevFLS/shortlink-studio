@@ -76,7 +76,7 @@ export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => 
             aria-hidden="true"
             className="relative mx-auto mt-6 h-12 w-full max-w-[17rem] rounded-full border border-white/15 bg-white/10 animate-fade-up [animation-delay:0.4s]"
           >
-            <span className="absolute inset-0 flex items-center overflow-hidden px-5 text-[11px] tracking-tight text-white/60 animate-url-out">
+            <span className="absolute inset-0 flex items-center overflow-hidden px-5 text-[11px] tracking-tight whitespace-nowrap text-white/60 animate-url-out">
               https://tu-tienda.com/coleccion/verano-2026?utm=ig
             </span>
             <span className="absolute inset-0 flex items-center justify-center animate-url-in">
