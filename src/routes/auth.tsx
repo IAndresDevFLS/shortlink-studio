@@ -217,7 +217,7 @@ function AuthPage() {
                       </span>
                     )}
                     {mod.footer === "metric" && (
-                      <span className="mt-3 inline-flex items-center gap-2 rounded-lg bg-accent px-2.5 py-1.5 text-[11px] font-semibold text-foreground">
+                      <span className="mt-3 inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-accent px-2.5 py-1.5 text-[11px] font-semibold text-foreground">
                         1,204 clics
                         <span className="inline-flex items-center gap-0.5 font-semibold text-primary">
                           +12%
@@ -225,6 +225,7 @@ function AuthPage() {
                         </span>
                       </span>
                     )}
+                    </div>
                   </article>
                   {i < MODULES.length - 1 && <Connector />}
                 </div>
