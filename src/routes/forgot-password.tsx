@@ -3,9 +3,10 @@ import { useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
-  CheckCircle2,
+  Info,
   KeyRound,
   Mail,
+  MailCheck,
   ShieldCheck,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
