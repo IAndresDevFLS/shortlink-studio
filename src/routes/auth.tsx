@@ -167,7 +167,6 @@ function AuthPage() {
           </section>
         </div>
 
-        <p className="sr-only">Compacto</p>
       </main>
 
       {/* Ayuda bajo la tarjeta */}
