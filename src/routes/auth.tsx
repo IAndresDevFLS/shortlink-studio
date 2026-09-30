@@ -116,14 +116,14 @@ function AuthPage() {
                   strokeLinecap="round"
                   className="animate-route-dash"
                 />
-                <circle r="4" fill="currentColor" className="route-pulse">
+                <circle r="3.5" fill="currentColor" fillOpacity="0.7" className="route-pulse">
                   <animateMotion
                     dur="7s"
                     repeatCount="indefinite"
                     path="M60 445 C 190 405, 120 245, 250 190 S 435 125, 448 40"
                   />
                 </circle>
-                <circle r="10" fill="currentColor" fillOpacity="0.25" className="route-pulse">
+                <circle r="9" fill="currentColor" fillOpacity="0.15" className="route-pulse">
                   <animateMotion
                     dur="7s"
                     repeatCount="indefinite"
