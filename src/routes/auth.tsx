@@ -182,17 +182,21 @@ function AuthPage() {
             </div>
 
             {/* Módulos conectados */}
-            <div className="relative flex items-stretch gap-1 md:gap-2" role="list">
+            <div
+              className="relative flex flex-col items-stretch gap-3 sm:gap-1 md:flex-row md:gap-2"
+              role="list"
+            >
               {MODULES.map((mod, i) => (
-                <div key={mod.title} className="contents md:contents">
+                <div key={mod.title} className="contents">
                   <article
                     role="listitem"
-                    className="flex min-w-0 flex-1 flex-col rounded-2xl border border-border bg-card p-4 shadow-subtle"
+                    className="flex min-w-0 flex-1 flex-row items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-subtle md:flex-col md:items-stretch md:gap-0"
                   >
-                    <span className="flex size-10 items-center justify-center rounded-full bg-accent text-primary">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
                       <mod.icon className="size-5" aria-hidden="true" />
                     </span>
-                    <h2 className="mt-3 font-display text-base font-bold text-foreground">
+                    <div className="flex min-w-0 flex-1 flex-col">
+                    <h2 className="font-display text-base font-bold text-foreground md:mt-3">
                       {mod.title}
                     </h2>
                     <p className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">
