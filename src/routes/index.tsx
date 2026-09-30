@@ -17,8 +17,10 @@ import {
   Trash2,
   TrendingUp,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+
+import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
 
 import { CreateModal } from "@/components/create-modal";
 import { DeleteModal } from "@/components/delete-modal";
@@ -144,6 +146,16 @@ function DashboardPage() {
   const [qrOpen, setQrOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [activeLink, setActiveLink] = useState<Shortlink>(LINKS[0]!);
+  const [welcomeOpen, setWelcomeOpen] = useState(false);
+
+  useEffect(() => {
+    if (!hasSeenWelcome()) setWelcomeOpen(true);
+  }, []);
+
+  const closeWelcome = () => {
+    markWelcomeSeen();
+    setWelcomeOpen(false);
+  };
 
   const [range, setRange] = useState<RangeKey>("30d");
   const [customStart, setCustomStart] = useState("2026-08-01");
