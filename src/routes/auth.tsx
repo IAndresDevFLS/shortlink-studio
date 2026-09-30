@@ -97,6 +97,7 @@ function AuthPage() {
   };
 
   const go = () => navigate({ to: "/" });
+  const goLogin = () => navigate({ to: "/login" });
 
   return (
     <div className="technical-grid flex min-h-screen flex-col">
@@ -254,7 +255,7 @@ function AuthPage() {
             <div className="mt-8 space-y-3">
               <button
                 type="button"
-                onClick={go}
+                onClick={goLogin}
                 className="group flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 Iniciar sesión
