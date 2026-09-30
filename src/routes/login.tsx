@@ -205,14 +205,14 @@ function LoginPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           <button
             type="button"
-            className="flex items-center justify-center gap-2.5 rounded-full border border-input bg-background px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex items-center justify-center gap-2 rounded-full border border-input bg-background px-3 py-3 text-[13px] font-semibold whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-sm"
           >
-            <Github className="size-5" aria-hidden="true" />
+            <Github className="size-5 shrink-0" aria-hidden="true" />
             Continuar con GitHub
           </button>
           <button
             type="button"
-            className="flex items-center justify-center gap-2.5 rounded-full border border-input bg-background px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            className="flex items-center justify-center gap-2 rounded-full border border-input bg-background px-3 py-3 text-[13px] font-semibold whitespace-nowrap text-foreground transition-colors hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:text-sm"
           >
             <GoogleIcon />
             Continuar con Google
