@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight, BarChart3, Link2, MousePointerClick, Rocket } from "lucide-react";
+import { ArrowRight, BarChart3, Check, Link2, MousePointerClick, Rocket } from "lucide-react";
 
 const WELCOME_KEY = "compacto-welcome";
 
