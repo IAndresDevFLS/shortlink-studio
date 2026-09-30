@@ -148,7 +148,7 @@ function AuthPage() {
         <div className="modal-enter grid w-full max-w-6xl overflow-hidden rounded-3xl border border-border bg-card shadow-elevated lg:grid-cols-[1.15fr_1fr]">
           {/* Panel izquierdo: escena técnica */}
           <section
-            className="relative flex flex-col justify-between gap-10 bg-accent p-8 md:p-12"
+            className="relative flex min-w-0 flex-col justify-between gap-10 bg-accent p-6 sm:p-8 md:p-12"
             aria-hidden="false"
           >
             <div
