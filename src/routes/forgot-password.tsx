@@ -72,7 +72,7 @@ function ForgotPasswordPage() {
         className="modal-enter relative z-10 w-full max-w-md rounded-3xl border border-border bg-card px-6 py-10 shadow-elevated sm:px-10"
       >
         {sent ? (
-          {/* Estado de confirmación */}
+          /* Estado de confirmación */
           <div className="animate-fade-up text-center">
             <div className="flex justify-center">
               <span className="flex size-14 items-center justify-center rounded-2xl bg-accent text-primary">
