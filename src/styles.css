@@ -70,7 +70,7 @@
 
 :root {
   --radius: 1rem;
-  --ink: oklch(0.27 0.05 170);
+  --ink: oklch(0.36 0.078 170);
   --ink-foreground: oklch(0.984 0.003 247.858);
   --background: oklch(0.984 0.003 248);
   --foreground: oklch(0.215 0.035 253);
@@ -112,7 +112,7 @@
 }
 
 .dark {
-  --ink: oklch(0.20 0.04 170);
+  --ink: oklch(0.30 0.06 170);
   --ink-foreground: oklch(0.984 0.003 247.858);
   --background: oklch(0.16 0.027 253);
   --foreground: oklch(0.984 0.003 247.858);
