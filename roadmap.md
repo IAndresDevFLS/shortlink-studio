@@ -9,3 +9,4 @@
 - [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
 - [x] Dashboard: composición “Informe vivo” con cabecera editorial, gráfica panorámica, banda comparativa y tabla protagonista a ancho completo.
 - [ ] Acceso inicial: comparar tres alternativas nuevas con distribuciones distintas, conservando la identidad Compacto.
+- [x] Auth: vista de bienvenida /auth con concepto módulos conectados (Crear → Distribuir → Medir), split 55/45, modo oscuro y selector de idioma.
