@@ -10,3 +10,4 @@
 - [x] Dashboard: composición “Informe vivo” con cabecera editorial, gráfica panorámica, banda comparativa y tabla protagonista a ancho completo.
 - [ ] Acceso inicial: comparar tres alternativas nuevas con distribuciones distintas, conservando la identidad Compacto.
 - [x] Auth: vista de bienvenida /auth con concepto módulos conectados (Crear → Distribuir → Medir), split 55/45, modo oscuro y selector de idioma.
+- [x] Login: vista /login con anillo orbital giratorio (diseño v4-anillo), formulario completo (correo, contraseña con mostrar/ocultar, mantener sesión, GitHub/Google) y flujo /auth → /login → dashboard.
