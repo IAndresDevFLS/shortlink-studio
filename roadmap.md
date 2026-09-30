@@ -8,3 +8,4 @@
 - [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
 - [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
 - [x] Dashboard: composición “Informe vivo” con cabecera editorial, gráfica panorámica, banda comparativa y tabla protagonista a ancho completo.
+- [ ] Acceso inicial: comparar tres alternativas nuevas con distribuciones distintas, conservando la identidad Compacto.
