@@ -557,6 +557,7 @@ function DashboardPage() {
         </div>
       </div>
 
+      <WelcomeModal open={welcomeOpen} onClose={closeWelcome} />
       <CreateModal open={createOpen} onClose={() => setCreateOpen(false)} />
       <EditModal open={editOpen} url={`https://${activeLink.shortUrl}`} onClose={() => setEditOpen(false)} />
       <QrModal open={qrOpen} url={`https://${activeLink.shortUrl}`} onClose={() => setQrOpen(false)} />
