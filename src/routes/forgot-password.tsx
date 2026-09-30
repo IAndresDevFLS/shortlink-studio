@@ -72,11 +72,11 @@ function ForgotPasswordPage() {
         className="modal-enter relative z-10 w-full max-w-md rounded-3xl border border-border bg-card px-6 py-10 shadow-elevated sm:px-10"
       >
         {sent ? (
-          /* Estado de confirmación */
-          <div className="text-center">
+          {/* Estado de confirmación */}
+          <div className="animate-fade-up text-center">
             <div className="flex justify-center">
               <span className="flex size-14 items-center justify-center rounded-2xl bg-accent text-primary">
-                <CheckCircle2 className="size-7" aria-hidden="true" />
+                <MailCheck className="size-7" aria-hidden="true" />
               </span>
             </div>
             <h1 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-foreground">
@@ -86,6 +86,27 @@ function ForgotPasswordPage() {
               Si <span className="font-semibold text-foreground">{email}</span> está
               registrado, te enviamos un enlace para elegir una nueva contraseña.
             </p>
+
+            <button
+              type="button"
+              onClick={() => setSent(false)}
+              className="mt-4 text-sm font-semibold text-primary transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            >
+              ¿No es tu correo? Corrígelo aquí
+            </button>
+
+            <div className="mt-6 flex items-start gap-3 rounded-xl border border-border bg-background px-4 py-3 text-left">
+              <Info
+                className="mt-0.5 size-5 shrink-0 text-primary"
+                aria-hidden="true"
+              />
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                El correo puede tardar un par de minutos.
+                <br />
+                Recuerda revisar también tu carpeta de spam.
+              </p>
+            </div>
+
             <button
               type="button"
               onClick={goLogin}
