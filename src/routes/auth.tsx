@@ -48,7 +48,7 @@ function AuthPage() {
     }
   };
 
-  const go = () => navigate({ to: "/" });
+  const go = () => navigate({ to: "/register" });
   const goLogin = () => navigate({ to: "/login" });
 
   return (

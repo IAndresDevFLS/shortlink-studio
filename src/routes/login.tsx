@@ -222,7 +222,7 @@ function LoginPage() {
         <p className="mt-8 text-center text-sm text-muted-foreground">
           ¿No tienes cuenta?{" "}
           <a
-            href="/auth"
+            href="/register"
             className="font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
           >
             Crear cuenta
