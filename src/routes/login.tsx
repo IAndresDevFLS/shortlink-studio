@@ -159,7 +159,7 @@ function LoginPage() {
 
           <div className="flex items-center justify-end">
             <a
-              href="#"
+              href="/forgot-password"
               className="text-sm font-semibold text-primary underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-ring"
             >
               ¿Olvidaste tu contraseña?
