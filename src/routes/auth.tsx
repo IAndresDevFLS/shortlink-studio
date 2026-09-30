@@ -96,15 +96,47 @@ function AuthPage() {
           >
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-0"
+              className="pointer-events-none absolute inset-0 overflow-hidden"
             >
-              <div className="absolute -right-20 top-16 size-64 rounded-full bg-primary/20 blur-2xl" />
-              <div className="absolute -bottom-24 -left-16 size-72 rounded-full bg-primary/10 blur-2xl" />
-              <div className="absolute -bottom-10 right-10 size-40 rounded-full border border-primary/25" />
+              <div className="absolute -right-20 top-16 size-64 rounded-full bg-primary/30 blur-3xl animate-float-slow" />
+              <div className="absolute -bottom-24 -left-16 size-72 rounded-full bg-primary/15 blur-3xl animate-float-slow [animation-delay:-4.5s]" />
+              {/* Ruta de señal: guión en movimiento + pulso viajando (metáfora de shortlink) */}
+              <svg
+                className="absolute inset-0 h-full w-full text-white"
+                viewBox="0 0 480 480"
+                preserveAspectRatio="xMidYMid slice"
+                fill="none"
+              >
+                <path
+                  d="M60 445 C 190 405, 120 245, 250 190 S 435 125, 448 40"
+                  stroke="currentColor"
+                  strokeOpacity="0.25"
+                  strokeWidth="1.5"
+                  strokeDasharray="3 9"
+                  strokeLinecap="round"
+                  className="animate-route-dash"
+                />
+                <circle r="3.5" fill="currentColor" fillOpacity="0.7" className="route-pulse">
+                  <animateMotion
+                    dur="7s"
+                    repeatCount="indefinite"
+                    path="M60 445 C 190 405, 120 245, 250 190 S 435 125, 448 40"
+                  />
+                </circle>
+                <circle r="9" fill="currentColor" fillOpacity="0.15" className="route-pulse">
+                  <animateMotion
+                    dur="7s"
+                    repeatCount="indefinite"
+                    path="M60 445 C 190 405, 120 245, 250 190 S 435 125, 448 40"
+                  />
+                </circle>
+                <circle cx="448" cy="40" r="3.5" fill="currentColor" fillOpacity="0.6" />
+                <circle cx="60" cy="445" r="3.5" fill="currentColor" fillOpacity="0.4" />
+              </svg>
             </div>
 
-            <div className="relative flex items-center gap-2">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <div className="relative flex items-center gap-2 animate-fade-up">
+              <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-action">
                 <Link2 className="size-5" aria-hidden="true" />
               </span>
               <span className="font-display text-xl font-bold tracking-tight text-ink-foreground">
@@ -113,10 +145,10 @@ function AuthPage() {
             </div>
 
             <div className="relative">
-              <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink-foreground md:text-[2.75rem] md:leading-[1.1]">
+              <h1 className="font-display text-4xl font-extrabold tracking-tight text-ink-foreground md:text-[2.75rem] md:leading-[1.1] animate-fade-up [animation-delay:0.15s]">
                 Bienvenido
               </h1>
-              <p className="mt-4 max-w-xs text-base leading-relaxed text-ink-foreground/70">
+              <p className="mt-4 max-w-xs text-base leading-relaxed text-ink-foreground/70 animate-fade-up [animation-delay:0.3s]">
                 Inicia sesión con tu cuenta existente o crea una cuenta nueva.
               </p>
             </div>
@@ -127,14 +159,14 @@ function AuthPage() {
             id="auth-panel"
             className="flex flex-col justify-center px-8 py-12 md:px-12"
           >
-            <h2 className="text-center font-display text-3xl font-bold tracking-tight text-foreground">
+            <h2 className="text-center font-display text-3xl font-bold tracking-tight text-foreground animate-fade-up [animation-delay:0.35s]">
               Comienza
             </h2>
-            <p className="mt-2 text-center text-base text-muted-foreground">
+            <p className="mt-2 text-center text-base text-muted-foreground animate-fade-up [animation-delay:0.45s]">
               Elige cómo quieres continuar.
             </p>
 
-            <div className="mt-8 space-y-3">
+            <div className="mt-8 space-y-3 animate-fade-up [animation-delay:0.55s]">
               <button
                 type="button"
                 onClick={goLogin}
