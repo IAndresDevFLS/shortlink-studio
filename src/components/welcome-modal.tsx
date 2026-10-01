@@ -101,7 +101,8 @@ export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => 
 
           {/* Chip +1 clic */}
           <span
-            className="absolute right-0 top-0 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground animate-fade-up [animation-delay:1.9s]"
+            className="absolute right-0 top-0 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground animate-fade-up [animation-delay:1.5s]"
+
           >
             +1 clic
           </span>
@@ -111,7 +112,7 @@ export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => 
           ref={buttonRef}
           type="button"
           onClick={onClose}
-          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:2.1s]"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:1.6s]"
         >
           <MousePointerClick className="size-5" aria-hidden="true" />
           ¡Listo, empecemos!
