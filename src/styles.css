@@ -332,3 +332,17 @@
     }
   }
 }
+
+:root { --success: oklch(0.52 0.12 160); --warning: oklch(0.7 0.15 70); --heat-0: oklch(0.96 0.02 165); }
+.dark { --success: oklch(0.72 0.15 160); --warning: oklch(0.8 0.15 75); --heat-0: oklch(0.24 0.03 165); }
+.hc {
+  --background: oklch(0 0 0); --foreground: oklch(1 0 0); --card: oklch(0 0 0); --card-foreground: oklch(1 0 0);
+  --primary: oklch(0.82 0.24 150); --primary-foreground: oklch(0 0 0); --secondary: oklch(0.12 0 0);
+  --muted: oklch(0.12 0 0); --muted-foreground: oklch(0.9 0 0); --accent: oklch(0.18 0.05 155); --accent-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0); --input: oklch(1 0 0); --ring: oklch(0.9 0.22 100); --ink: oklch(0.2 0.06 163);
+  --brand-gradient: linear-gradient(var(--primary), var(--primary)); --shadow-subtle: none; --shadow-elevated: none; --shadow-action: none;
+  --success: oklch(0.85 0.22 150); --warning: oklch(0.88 0.17 90); --destructive: oklch(0.75 0.2 25); --heat-0: oklch(0.15 0 0);
+}
+@theme inline { --font-mono: "JetBrains Mono", ui-monospace, monospace; --color-success: var(--success); --color-warning: var(--warning); --color-heat-0: var(--heat-0); }
+@utility animate-draw { animation: draw 1.6s ease-out 0.3s both; }
+@keyframes draw { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }

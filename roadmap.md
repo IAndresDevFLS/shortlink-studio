@@ -13,3 +13,4 @@
 - [x] Login: vista /login con anillo orbital giratorio (diseño v4-anillo), formulario completo (correo, contraseña con mostrar/ocultar, mantener sesión, GitHub/Google) y flujo /auth → /login → dashboard.
 - [x] Recuperar contraseña: /forgot-password con anillo orbital y cuadrícula del login, captcha de prueba, estado "Revisa tu correo" y enlace desde /login.
 - [x] Bienvenida primer ingreso: modal esmeralda con ruta de señal animada, pasos Crear → Distribuir → Medir y botón "¡Listo, empecemos!"; se muestra solo la primera vez (localStorage) y se cierra con botón o Escape.
+- [x] Dashboard OTP: /otp-dashboard con héroe Pulso OTP, filtros pegajosos, KPI, tendencia, embudo, plan, SLA, canal, proveedores, mapa de calor, plantillas, actividad y estados (carga/vacío/error/sin plan).
