@@ -215,7 +215,7 @@ function Kpis({ loading }: { loading: boolean }) {
   const items = [
     { l: "Enlaces creados", v: LINKS.length, I: Link2, sub: "+4 vs. periodo anterior", tone: "text-success" },
     { l: "Activos", v: LINKS.length - vencidos, I: Zap, sub: `${Math.round(((LINKS.length - vencidos) / LINKS.length) * 100)} % del total`, tone: "text-muted-foreground" },
-    { l: "Por vencer", v: porVencer, I: CalendarClock, sub: `próximos 7 días · ${vencidos} vencidos`, tone: "text-warning" },
+    { l: "Por vencer", v: porVencer, I: CalendarClock, sub: `próximos 7 días · ${vencidos} vencidos`, tone: "text-muted-foreground" },
     { l: "Dominios conectados", v: DOMINIOS.filter((d) => d.ok).length, I: Globe, sub: `${DOMINIOS.filter((d) => !d.ok).length} pendiente de verificar`, tone: "text-muted-foreground" },
   ];
   return (
