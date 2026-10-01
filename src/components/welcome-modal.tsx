@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight, Link2, MousePointerClick } from "lucide-react";
+import { ArrowRight, Check, MousePointerClick } from "lucide-react";
 
 const WELCOME_KEY = "compacto-welcome";
 
@@ -18,14 +18,6 @@ export function markWelcomeSeen() {
     /* almacenamiento no disponible */
   }
 }
-
-const CHIPS = [
-  { slug: "cmp.to/eq7", className: "left-1/2 top-0 -translate-x-1/2", delay: "0.35s" },
-  { slug: "cmp.to/ah3", className: "left-2 top-8", delay: "0.45s" },
-  { slug: "cmp.to/m2f", className: "right-2 top-8", delay: "0.55s" },
-  { slug: "cmp.to/x9k", className: "bottom-9 left-0", delay: "0.65s" },
-  { slug: "cmp.to/b8n", className: "bottom-9 right-0", delay: "0.75s" },
-];
 
 export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -47,74 +39,46 @@ export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/45 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-foreground/45 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="welcome-title"
     >
-      <div className="modal-enter relative w-full max-w-md rounded-3xl border border-border bg-card px-8 pb-9 pt-10 shadow-elevated">
-        {/* Explosión de enlaces: pastillas que salen del logo */}
-        <div className="relative mx-auto h-44 w-full max-w-xs animate-fade-up">
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 300 176"
-            className="absolute inset-0 size-full"
-            fill="none"
-          >
-            {[
-              "M150 88 L150 18",
-              "M150 88 L48 44",
-              "M150 88 L252 44",
-              "M150 88 L40 132",
-              "M150 88 L260 132",
-            ].map((d) => (
-              <path
-                key={d}
-                d={d}
-                stroke="var(--primary)"
-                strokeOpacity="0.35"
-                strokeWidth="2"
-                strokeDasharray="2 6"
-                strokeLinecap="round"
-              />
-            ))}
-          </svg>
+      {/* Aurora: resplandor esmeralda bajando desde arriba */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -top-56 left-1/2 size-[34rem] -translate-x-1/2 rounded-full bg-primary/35 blur-3xl animate-float-slow" />
+        <div className="absolute -top-40 left-1/4 size-72 rounded-full bg-primary/20 blur-3xl animate-float-slow [animation-delay:-3s]" />
+        <div className="absolute -top-40 right-1/4 size-72 rounded-full bg-primary/20 blur-3xl animate-float-slow [animation-delay:-6s]" />
+      </div>
 
-          {/* Logo central */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-            <span className="flex size-16 items-center justify-center rounded-2xl bg-primary shadow-action">
-              <Link2 className="size-8 text-primary-foreground" aria-hidden="true" />
+      <div className="modal-enter relative w-full max-w-md rounded-3xl border border-border bg-card px-8 pb-9 pt-12 shadow-elevated">
+        {/* Pill del shortlink con anillos concéntricos */}
+        <div className="relative mx-auto flex h-14 w-fit items-center animate-fade-up">
+          <span aria-hidden="true" className="absolute -inset-2 rounded-full border border-primary/30 animate-ripple" />
+          <span aria-hidden="true" className="absolute -inset-2 rounded-full border border-primary/20 animate-ripple [animation-delay:1.2s]" />
+          <span className="relative inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground shadow-subtle">
+            <span className="flex size-6 items-center justify-center rounded-full bg-primary">
+              <Check className="size-3.5 text-primary-foreground" aria-hidden="true" />
             </span>
-          </div>
-
-          {/* Pastillas de shortlinks */}
-          {CHIPS.map(({ slug, className, delay }) => (
-            <span
-              key={slug}
-              className={`absolute inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-[11px] font-semibold text-foreground shadow-subtle animate-fade-up ${className}`}
-              style={{ animationDelay: delay }}
-            >
-              <Link2 className="size-3 text-primary" aria-hidden="true" />
-              {slug}
-            </span>
-          ))}
+            compacto.to/x7k2
+          </span>
         </div>
 
         <h1
           id="welcome-title"
-          className="mt-4 text-center font-display text-3xl font-extrabold tracking-tight text-foreground animate-fade-up [animation-delay:0.85s]"
+          className="mt-6 text-center font-display text-3xl font-extrabold tracking-tight text-foreground animate-fade-up [animation-delay:0.25s]"
         >
           ¡Bienvenido a Compacto!
         </h1>
-        <p className="mx-auto mt-3 max-w-xs text-center text-sm leading-relaxed text-muted-foreground animate-fade-up [animation-delay:0.95s]">
-          Acorta, comparte y lleva tus ideas más lejos.
+        <p className="mx-auto mt-3 max-w-xs text-center text-sm leading-relaxed text-muted-foreground animate-fade-up [animation-delay:0.4s]">
+          Tu enlace corto ya está listo para compartir.
         </p>
 
         <button
           ref={buttonRef}
           type="button"
           onClick={onClose}
-          className="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:1.05s]"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:0.55s]"
         >
           <MousePointerClick className="size-5" aria-hidden="true" />
           ¡Listo, empecemos!
