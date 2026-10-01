@@ -250,8 +250,8 @@ function KpiBand({ loading }: { loading: boolean }) {
         const d = delta(it.v, it.p); const good = it.bad ? d <= 0 : d >= 0;
         return (
           <article key={it.l} style={{ animationDelay: `${0.15 + i * 0.06}s` }} className="animate-fade-up rounded-2xl border border-border bg-card p-4 shadow-subtle">
-            <div className="flex items-center justify-between text-sm text-muted-foreground"><span className="flex items-center gap-1.5"><it.I className="size-4" aria-hidden />{it.l}</span>
-              {!loading && <span className={`font-mono text-xs font-medium ${good ? "text-success" : "text-destructive"}`}>{d >= 0 ? "+" : ""}{d.toFixed(1)} %</span>}</div>
+            <div className="flex flex-wrap items-center justify-between gap-x-2 text-sm text-muted-foreground"><span className="flex items-center gap-1.5"><it.I className="size-4" aria-hidden />{it.l}</span>
+              {!loading && <span className={`whitespace-nowrap font-mono text-[11px] font-medium ${good ? "text-success" : "text-destructive"}`}>{d >= 0 ? "+" : ""}{d.toFixed(1)} %</span>}</div>
             {loading ? <><Skeleton className="mt-3 h-8 w-24" /><Skeleton className="mt-3 h-8 w-full" /></> : <>
               <p className="mt-2 font-display text-2xl font-bold tabular-nums text-foreground sm:text-3xl">{nf.format(it.v)}</p>
               <p className="text-xs text-muted-foreground">{it.sub}</p>
