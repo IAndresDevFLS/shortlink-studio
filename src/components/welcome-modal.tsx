@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ArrowRight, Check, MousePointerClick } from "lucide-react";
+import { ArrowRight, MousePointerClick } from "lucide-react";
 
 const WELCOME_KEY = "compacto-welcome";
 
@@ -18,6 +18,15 @@ export function markWelcomeSeen() {
     /* almacenamiento no disponible */
   }
 }
+
+const CURVE = "M10 118 C 70 108, 110 92, 150 72 S 240 34, 288 16";
+const DOTS: Array<[number, number]> = [
+  [10, 118],
+  [70, 101],
+  [130, 80],
+  [190, 55],
+  [250, 32],
+];
 
 export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -39,46 +48,71 @@ export function WelcomeModal({ open, onClose }: { open: boolean; onClose: () => 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-foreground/45 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/45 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby="welcome-title"
     >
-      {/* Aurora: resplandor esmeralda bajando desde arriba */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-56 left-1/2 size-[34rem] -translate-x-1/2 rounded-full bg-primary/35 blur-3xl animate-float-slow" />
-        <div className="absolute -top-40 left-1/4 size-72 rounded-full bg-primary/20 blur-3xl animate-float-slow [animation-delay:-3s]" />
-        <div className="absolute -top-40 right-1/4 size-72 rounded-full bg-primary/20 blur-3xl animate-float-slow [animation-delay:-6s]" />
-      </div>
-
-      <div className="modal-enter relative w-full max-w-md rounded-3xl border border-border bg-card px-8 pb-9 pt-12 shadow-elevated">
-        {/* Pill del shortlink con anillos concéntricos */}
-        <div className="relative mx-auto flex h-14 w-fit items-center animate-fade-up">
-          <span aria-hidden="true" className="absolute -inset-2 rounded-full border border-primary/30 animate-ripple" />
-          <span aria-hidden="true" className="absolute -inset-2 rounded-full border border-primary/20 animate-ripple [animation-delay:1.2s]" />
-          <span className="relative inline-flex items-center gap-2.5 rounded-full bg-accent px-5 py-2.5 text-sm font-bold text-accent-foreground shadow-subtle">
-            <span className="flex size-6 items-center justify-center rounded-full bg-primary">
-              <Check className="size-3.5 text-primary-foreground" aria-hidden="true" />
-            </span>
-            compacto.to/x7k2
-          </span>
-        </div>
-
+      <div className="modal-enter relative w-full max-w-md rounded-3xl border border-border bg-card px-8 pb-9 pt-10 shadow-elevated">
         <h1
           id="welcome-title"
-          className="mt-6 text-center font-display text-3xl font-extrabold tracking-tight text-foreground animate-fade-up [animation-delay:0.25s]"
+          className="text-center font-display text-3xl font-extrabold tracking-tight text-foreground animate-fade-up"
         >
           ¡Bienvenido a Compacto!
         </h1>
-        <p className="mx-auto mt-3 max-w-xs text-center text-sm leading-relaxed text-muted-foreground animate-fade-up [animation-delay:0.4s]">
-          Tu enlace corto ya está listo para compartir.
+        <p className="mx-auto mt-3 max-w-xs text-center text-sm leading-relaxed text-muted-foreground animate-fade-up [animation-delay:0.15s]">
+          Todo lo que necesitas para crecer, en un solo lugar.
         </p>
+
+        {/* Curva de crecimiento */}
+        <div className="relative mx-auto mt-7 h-36 w-full max-w-[18rem] animate-fade-up [animation-delay:0.3s]">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 300 140"
+            className="absolute inset-0 size-full"
+            fill="none"
+          >
+            <defs>
+              <linearGradient id="welcome-area" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="var(--primary)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            <path d={`${CURVE} L288 140 L10 140 Z`} fill="url(#welcome-area)" />
+            <path
+              d={CURVE}
+              stroke="var(--primary)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeDasharray="520"
+              className="animate-draw"
+            />
+            {DOTS.map(([x, y]) => (
+              <circle key={`${x}-${y}`} cx={x} cy={y} r="4" fill="var(--primary)" />
+            ))}
+          </svg>
+
+          {/* Punto final pulsante */}
+          <div className="absolute right-[1%] top-6 flex size-10 -translate-y-1 items-center justify-center">
+            <span aria-hidden="true" className="absolute size-8 rounded-full bg-primary/25 animate-ripple" />
+            <span aria-hidden="true" className="absolute size-8 rounded-full bg-primary/25 animate-ripple [animation-delay:1.2s]" />
+            <span className="relative size-3 rounded-full bg-primary" />
+          </div>
+
+          {/* Chip +1 clic */}
+          <span
+            className="absolute right-0 top-0 inline-flex items-center rounded-full bg-accent px-2.5 py-1 text-[11px] font-semibold text-accent-foreground animate-fade-up [animation-delay:1.5s]"
+
+          >
+            +1 clic
+          </span>
+        </div>
 
         <button
           ref={buttonRef}
           type="button"
           onClick={onClose}
-          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:0.55s]"
+          className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-6 py-3.5 text-base font-semibold text-primary-foreground shadow-action transition-transform hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring animate-fade-up [animation-delay:1.6s]"
         >
           <MousePointerClick className="size-5" aria-hidden="true" />
           ¡Listo, empecemos!
