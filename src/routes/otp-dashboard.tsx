@@ -12,7 +12,7 @@ type Estado = "normal" | "carga" | "vacio" | "error" | "sinplan";
 
 export const Route = createFileRoute("/otp-dashboard")({
   validateSearch: (s: Record<string, unknown>): { estado?: Estado } => {
-    const e = s.estado as Estado | undefined;
+    const e = s["estado"] as Estado | undefined;
     return e && ["normal", "carga", "vacio", "error", "sinplan"].includes(e) ? { estado: e } : {};
   },
   head: () => ({
@@ -330,7 +330,7 @@ function Funnel() {
         <li key={s.l}>
           <div className="flex justify-between text-sm"><span className="font-medium text-foreground">{s.l}</span><span className="font-mono tabular-nums text-foreground">{nf.format(s.v)} <span className="text-muted-foreground">· {pct(s.v, TOT.generados).toFixed(1)} %</span></span></div>
           <div className="mt-1 h-7 rounded-lg bg-muted"><div className="h-full rounded-lg bg-primary transition-all" style={{ width: `${pct(s.v, TOT.generados)}%`, opacity: 1 - i * 0.2 }} /></div>
-          {i < 2 && <p className="mt-1 text-xs text-destructive">−{nf.format(s.v - steps[i + 1].v)} ({(100 - pct(steps[i + 1].v, s.v)).toFixed(1)} %) {i === 0 ? "no entregados" : "sin verificar · incluye expirados"}</p>}
+          {i < 2 && <p className="mt-1 text-xs text-destructive">−{nf.format(s.v - steps[i + 1]!.v)} ({(100 - pct(steps[i + 1]!.v, s.v)).toFixed(1)} %) {i === 0 ? "no entregados" : "sin verificar · incluye expirados"}</p>}
         </li>
       ))}
     </ol>
