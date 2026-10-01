@@ -7,7 +7,7 @@
 - [x] A/B: variante “Laboratorio moderno” con configuración intuitiva, IDs y embudos de conversión.
 - [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
 - [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
-- [x] Dashboard: composición “Informe vivo” con cabecera editorial, gráfica panorámica, banda comparativa y tabla protagonista a ancho completo.
+- [x] Dashboard general (/): rediseño "Pulso de enlaces" en la familia de /otp-dashboard, con estados de carga, vacío, error y plan Free.
 - [ ] Acceso inicial: comparar tres alternativas nuevas con distribuciones distintas, conservando la identidad Compacto.
 - [x] Auth: vista de bienvenida /auth con concepto módulos conectados (Crear → Distribuir → Medir), split 55/45, modo oscuro y selector de idioma.
 - [x] Login: vista /login con anillo orbital giratorio (diseño v4-anillo), formulario completo (correo, contraseña con mostrar/ocultar, mantener sesión, GitHub/Google) y flujo /auth → /login → dashboard.
