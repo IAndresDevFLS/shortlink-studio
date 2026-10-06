@@ -385,7 +385,7 @@ function Locked({ what }: { what: string }) {
       <span className="mx-auto grid size-11 place-items-center rounded-xl bg-accent text-primary"><Lock className="size-5" aria-hidden /></span>
       <p className="mt-3 font-display font-bold text-foreground">Descubre quién hace clic</p>
       <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">Desbloquea {what}: país, ciudad, dispositivo, navegador, canal y campaña de cada clic.</p>
-      <a href="#" className="mt-4 inline-flex items-center gap-2 rounded-full bg-brand-gradient px-5 py-2 text-sm font-semibold text-primary-foreground shadow-action"><Sparkles className="size-4" aria-hidden />Mejorar plan</a>
+      <Link to="/pricing" className="mt-4 inline-flex items-center gap-2 rounded-full bg-brand-gradient px-5 py-2 text-sm font-semibold text-primary-foreground shadow-action"><Sparkles className="size-4" aria-hidden />Mejorar plan</Link>
     </div>
   );
 }
@@ -398,7 +398,7 @@ function PlanCard({ free }: { free: boolean }) {
         <div className="flex justify-between text-sm"><span>Enlaces usados</span><span className="font-mono">{used} / {lim}</span></div>
         <div className="mt-1.5 h-2.5 rounded-full bg-muted" role="progressbar" aria-valuenow={Math.round(p)} aria-valuemin={0} aria-valuemax={100} aria-label="Uso de enlaces"><div className={`h-full rounded-full ${p > 80 ? "bg-warning" : "bg-primary"}`} style={{ width: `${p}%` }} /></div>
       </div>
-      <a href="#" className={`inline-flex w-full justify-center rounded-full px-5 py-2.5 text-sm font-semibold ${free ? "bg-brand-gradient text-primary-foreground shadow-action" : "border border-border text-foreground hover:bg-muted"}`}>{free ? "Mejorar plan" : "Gestionar plan"}</a>
+      <Link to="/pricing" className={`inline-flex w-full justify-center rounded-full px-5 py-2.5 text-sm font-semibold ${free ? "bg-brand-gradient text-primary-foreground shadow-action" : "border border-border text-foreground hover:bg-muted"}`}>{free ? "Mejorar plan" : "Gestionar plan"}</Link>
     </div>
   );
 }
