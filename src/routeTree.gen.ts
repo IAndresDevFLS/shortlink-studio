@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OtpDashboardRouteImport } from './routes/otp-dashboard'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RegisterRouteImport } from './routes/register'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const OtpDashboardRoute = OtpDashboardRouteImport.update({
   path: '/otp-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/pricing'
     | '/register'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/pricing'
     | '/register'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/pricing'
     | '/register'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   OtpDashboardRoute: typeof OtpDashboardRoute
+  PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OtpDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   OtpDashboardRoute: OtpDashboardRoute,
+  PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport

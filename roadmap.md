@@ -8,6 +8,7 @@
 - [x] Dispositivo/Ubicación: lista estructurada con reglas, prioridad, reordenación y estado vacío.
 - [x] Agenda: tarjetas por ventana con zona horaria, repetición única/semanal, prioridad, métricas e IDs.
 - [x] Dashboard general (/): rediseño "Pulso de enlaces" en la familia de /otp-dashboard, con estados de carga, vacío, error y plan Free.
+- [x] Vista de planes (/pricing): diseño "Editorial claro" (fondo claro con puntos técnicos, tarjetas equivalentes, Prime destacado con borde verde), selector mensual/anual y USD; botones "Mejorar/Gestionar plan" del dashboard enlazados.
 - [ ] Acceso inicial: comparar tres alternativas nuevas con distribuciones distintas, conservando la identidad Compacto.
 - [x] Auth: vista de bienvenida /auth con concepto módulos conectados (Crear → Distribuir → Medir), split 55/45, modo oscuro y selector de idioma.
 - [x] Login: vista /login con anillo orbital giratorio (diseño v4-anillo), formulario completo (correo, contraseña con mostrar/ocultar, mantener sesión, GitHub/Google) y flujo /auth → /login → dashboard.
