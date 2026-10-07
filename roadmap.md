@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Reporte de clics por dominio: nueva vista Compacto, filtros de dominio y fechas, tabla y temas; datos de demostración.
+- [x] Reporte de clics por dominio: nueva vista Compacto, filtros de dominio y fechas, tabla y temas; datos de demostración; verificado en escritorio y móvil.
 
 - [x] Dominios: vista /domains y modal de creación con identidad Compacto, búsqueda, filtros y validación visual; sin conexión DNS real.
 - [x] API Keys: vista /api-keys con identidad Compacto, búsqueda y flujos de creación, revelado único y eliminación; sin credenciales reales.
