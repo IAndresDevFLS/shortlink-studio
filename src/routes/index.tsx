@@ -10,6 +10,7 @@ import { CreateModal } from "@/components/create-modal";
 import { QrModal } from "@/components/qr-modal";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 type Estado = "normal" | "carga" | "vacio" | "error";
 type Plan = "pro" | "free";
@@ -95,6 +96,7 @@ function Dashboard() {
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
         <div className="flex items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/domains"><Globe /> <span className="hidden sm:inline">Dominios</span></Link></Button>
           <Link to="/otp-dashboard" className="hidden rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground sm:inline-flex">OTP</Link>
           <div role="radiogroup" aria-label="Tema" className="flex rounded-full border border-border bg-card p-1 shadow-subtle">
             {([["claro", Sun, "Claro"], ["oscuro", Moon, "Oscuro"], ["contraste", Contrast, "Alto contraste"]] as const).map(([k, I, l]) => (
