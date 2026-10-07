@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DomainClickReportRouteImport } from './routes/domain-click-report'
 import { Route as DomainsRouteImport } from './routes/domains'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
@@ -32,6 +33,11 @@ const ApiKeysRoute = ApiKeysRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DomainClickReportRoute = DomainClickReportRouteImport.update({
+  id: '/domain-click-report',
+  path: '/domain-click-report',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DomainsRoute = DomainsRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
+  '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
+  '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/api-keys': typeof ApiKeysRoute
   '/auth': typeof AuthRoute
+  '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api-keys'
     | '/auth'
+    | '/domain-click-report'
     | '/domains'
     | '/forgot-password'
     | '/login'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api-keys'
     | '/auth'
+    | '/domain-click-report'
     | '/domains'
     | '/forgot-password'
     | '/login'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api-keys'
     | '/auth'
+    | '/domain-click-report'
     | '/domains'
     | '/forgot-password'
     | '/login'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ApiKeysRoute: typeof ApiKeysRoute
   AuthRoute: typeof AuthRoute
+  DomainClickReportRoute: typeof DomainClickReportRoute
   DomainsRoute: typeof DomainsRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
@@ -168,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/domain-click-report': {
+      id: '/domain-click-report'
+      path: '/domain-click-report'
+      fullPath: '/domain-click-report'
+      preLoaderRoute: typeof DomainClickReportRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/domains': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ApiKeysRoute: ApiKeysRoute,
   AuthRoute: AuthRoute,
+  DomainClickReportRoute: DomainClickReportRoute,
   DomainsRoute: DomainsRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,

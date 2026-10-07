@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Contrast, Copy, Globe, Link2, Moon, Plus, Search, ShieldCheck, Sun, X } from "lucide-react";
+import { ArrowLeft, BarChart3, Check, CheckCircle2, ChevronLeft, ChevronRight, Clock3, Contrast, Copy, Globe, Link2, Moon, Plus, Search, ShieldCheck, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DomainCreateModal } from "@/components/domain-create-modal";
@@ -47,7 +47,7 @@ function DomainsPage() {
     <main id="domains-content" className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
       <div className="animate-fade-up flex flex-wrap items-end justify-between gap-6">
         <div><p className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-primary"><Globe className="size-4" /> Espacio de trabajo</p><h1 className="font-display text-4xl font-semibold sm:text-5xl">Dominios</h1><p className="mt-3 text-sm text-muted-foreground sm:text-base">Tu marca, en cada enlace.</p></div>
-        <Button variant="premium" className="h-12 rounded-full px-6" onClick={() => setOpen(true)}><Plus /> Nuevo dominio</Button>
+        <div className="flex flex-wrap gap-3"><Button asChild variant="outline" className="h-12 rounded-full px-6"><Link to="/domain-click-report"><BarChart3 /> Reporte de clics</Link></Button><Button variant="premium" className="h-12 rounded-full px-6" onClick={() => setOpen(true)}><Plus /> Nuevo dominio</Button></div>
       </div>
       <div className="my-9 grid grid-cols-3 border-y border-border bg-card/60 py-6">
         {[{ label: 'Dominios', value: domains.length, Icon: Globe }, { label: 'Activos', value: domains.filter(d => d.active).length, Icon: ShieldCheck }, { label: 'Enlaces creados', value: domains.reduce((sum, d) => sum + d.links, 0), Icon: Link2 }].map(({ label, value, Icon }, i) => <div key={label} className={`min-w-0 px-3 sm:px-6 ${i ? 'border-l border-border' : ''}`}><p className="mb-3 flex items-start gap-2 text-xs text-muted-foreground sm:text-sm"><Icon className="hidden size-4 shrink-0 text-primary sm:block" />{label}</p><p className="font-display text-3xl font-semibold">{value.toLocaleString('es-CO')}</p></div>)}
