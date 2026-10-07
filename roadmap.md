@@ -1,6 +1,7 @@
 # Roadmap
 
 - [x] Dominios: vista /domains y modal de creación con identidad Compacto, búsqueda, filtros y validación visual; sin conexión DNS real.
+- [x] API Keys: vista /api-keys con identidad Compacto, búsqueda y flujos de creación, revelado único y eliminación; sin credenciales reales.
 
 - [x] Modal QR (Compacto): tamaño corregido (la librería pisaba el diseño con estilos inline) y verificado.
 - [x] Modal de eliminación (Compacto): creado según captura de referencia (Cancelar + Eliminar rojo), verificado en escritorio y móvil.
