@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
-  Contrast, Copy, Globe, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
+  Contrast, Copy, Globe, KeyRound, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
   Sparkles, Star, Sun, Zap,
 } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
@@ -96,6 +96,7 @@ function Dashboard() {
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
         <div className="flex items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/api-keys"><KeyRound /> <span className="hidden lg:inline">API Keys</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/domains"><Globe /> <span className="hidden sm:inline">Dominios</span></Link></Button>
           <Link to="/otp-dashboard" className="hidden rounded-full border border-border bg-card px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground sm:inline-flex">OTP</Link>
           <div role="radiogroup" aria-label="Tema" className="flex rounded-full border border-border bg-card p-1 shadow-subtle">

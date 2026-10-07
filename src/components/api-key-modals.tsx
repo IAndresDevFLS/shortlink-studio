@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { AlertTriangle, Check, Copy, KeyRound, LoaderCircle, ShieldCheck, Trash2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,7 @@ const permissions = [
 ] as const;
 
 function ModalFrame({ children, open, onOpenChange, locked = false }: {
-  children: React.ReactNode;
+  children: ReactNode;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   locked?: boolean;

@@ -13,3 +13,4 @@
 
 - Keep dashboard analytics in an editorial full-width flow; why: the primary chart and shortlink table must remain the page's visual and operational focus.
 - Keep domain management at /domains with an accessible standalone creation dialog and in-memory preview data; why: domain presentation can be evaluated without implying real DNS provisioning.
+- Keep API key management at /api-keys with separate creation, reveal, and deletion dialogs using in-memory preview data; why: the complete security-sensitive flow can be evaluated without implying real credentials are issued.
