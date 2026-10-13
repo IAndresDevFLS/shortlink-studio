@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Reporte de campañas: página independiente con métricas, tasa de conversión, embudo y detalle por enlace; conectar desde Campañas y verificar temas y navegación.
+- [x] Reporte de campañas: página independiente con métricas, tasa de conversión, embudo y detalle por enlace; navegación desde Campañas, creación, búsqueda, paginación, CSV y tres temas verificados; datos demo.
 
 - [x] Campañas: /campaigns y modal Compacto con campos originales; creación, descarga ZIP demo, reporte y eliminación verificados, tres temas y móvil sin desbordamiento.
 
