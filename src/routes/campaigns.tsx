@@ -30,7 +30,6 @@ function CampaignsPage() {
   const [search, setSearch] = useState("");
   const [theme, setTheme] = useState<Theme>("light");
   const [remove, setRemove] = useState<Campaign | null>(null);
-  const [report, setReport] = useState<Campaign | null>(null);
   const [notice, setNotice] = useState("");
   useEffect(() => { const value = localStorage.getItem("compacto-theme"); if (value === "dark" || value === "contraste") setTheme(value); }, []);
   useEffect(() => { document.documentElement.classList.toggle("dark", theme === "dark"); document.documentElement.classList.toggle("hc", theme === "contraste"); }, [theme]);
