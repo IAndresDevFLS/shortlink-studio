@@ -15,3 +15,4 @@
 - Keep domain management at /domains with an accessible standalone creation dialog and in-memory preview data; why: domain presentation can be evaluated without implying real DNS provisioning.
 - Keep API key management at /api-keys with separate creation, reveal, and deletion dialogs using in-memory preview data; why: the complete security-sensitive flow can be evaluated without implying real credentials are issued.
 - Keep domain click reporting at /domain-click-report, linked from /domains, with applied domain/date filters over preview data; why: the daily report can be evaluated without implying live traffic collection.
+- Keep campaign management at /campaigns with accessible dialogs, in-memory preview data and client-side ZIP exports of demo CSV links; why: the complete presentation can be evaluated without implying real redirect provisioning or traffic collection.

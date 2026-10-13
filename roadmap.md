@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Campañas: /campaigns y modal Compacto con campos originales; creación, descarga ZIP demo, reporte y eliminación verificados, tres temas y móvil sin desbordamiento.
+
 - [x] Reporte de clics por dominio: nueva vista Compacto, filtros de dominio y fechas, tabla y temas; datos de demostración; verificado en escritorio y móvil.
 
 - [x] Dominios: vista /domains y modal de creación con identidad Compacto, búsqueda, filtros y validación visual; sin conexión DNS real.
