@@ -20,6 +20,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as OtpDashboardRouteImport } from './routes/otp-dashboard'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as CampaignReportCampaignIdRouteImport } from './routes/campaign-report.$campaignId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,12 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignReportCampaignIdRoute =
+  CampaignReportCampaignIdRouteImport.update({
+    id: '/campaign-report/$campaignId',
+    path: '/campaign-report/$campaignId',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/otp-dashboard': typeof OtpDashboardRoute
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
+  '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +110,7 @@ export interface FileRoutesByTo {
   '/otp-dashboard': typeof OtpDashboardRoute
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
+  '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +125,7 @@ export interface FileRoutesById {
   '/otp-dashboard': typeof OtpDashboardRoute
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
+  '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/otp-dashboard'
     | '/pricing'
     | '/register'
+    | '/campaign-report/$campaignId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +155,7 @@ export interface FileRouteTypes {
     | '/otp-dashboard'
     | '/pricing'
     | '/register'
+    | '/campaign-report/$campaignId'
   id:
     | '__root__'
     | '/'
@@ -157,6 +169,7 @@ export interface FileRouteTypes {
     | '/otp-dashboard'
     | '/pricing'
     | '/register'
+    | '/campaign-report/$campaignId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +184,7 @@ export interface RootRouteChildren {
   OtpDashboardRoute: typeof OtpDashboardRoute
   PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
+  CampaignReportCampaignIdRoute: typeof CampaignReportCampaignIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +266,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaign-report/$campaignId': {
+      id: '/campaign-report/$campaignId'
+      path: '/campaign-report/$campaignId'
+      fullPath: '/campaign-report/$campaignId'
+      preLoaderRoute: typeof CampaignReportCampaignIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +288,7 @@ const rootRouteChildren: RootRouteChildren = {
   OtpDashboardRoute: OtpDashboardRoute,
   PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
+  CampaignReportCampaignIdRoute: CampaignReportCampaignIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
