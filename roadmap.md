@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Campañas: página independiente y modal Compacto, campos originales, listado y acciones de vista previa; comprobar creación y temas.
+- [x] Campañas: /campaigns y modal Compacto con campos originales; creación, descarga ZIP demo, reporte y eliminación verificados, tres temas y móvil sin desbordamiento.
 
 - [x] Reporte de clics por dominio: nueva vista Compacto, filtros de dominio y fechas, tabla y temas; datos de demostración; verificado en escritorio y móvil.
 

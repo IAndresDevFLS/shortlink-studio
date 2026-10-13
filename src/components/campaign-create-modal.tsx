@@ -39,11 +39,11 @@ export function CampaignCreateModal({ open, onOpenChange, available, onCreate }:
         </header>
         <form onSubmit={submit} noValidate>
           <div className="space-y-5 p-6 sm:p-7">
-            <div className="space-y-2"><Label htmlFor="campaign-name">Nombre de la campaña</Label><Input id="campaign-name" value={name} onChange={e => setName(e.target.value)} maxLength={100} placeholder="Ej. Lanzamiento de octubre" required className="rounded-lg" /></div>
-            <div className="space-y-2"><Label htmlFor="campaign-url">URL de destino</Label><Input id="campaign-url" value={destination} onChange={e => setDestination(e.target.value)} type="url" placeholder="https://tumarca.com/campaña" required className="rounded-lg" /></div>
+            <div className="space-y-2"><Label htmlFor="campaign-name">Nombre de la campaña</Label><Input id="campaign-name" value={name} onChange={e => { setName(e.target.value); setError(""); }} maxLength={100} placeholder="Ej. Lanzamiento de octubre" required className="rounded-lg" /></div>
+            <div className="space-y-2"><Label htmlFor="campaign-url">URL de destino</Label><Input id="campaign-url" value={destination} onChange={e => { setDestination(e.target.value); setError(""); }} type="url" placeholder="https://tumarca.com/campaña" required className="rounded-lg" /></div>
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="space-y-2"><Label htmlFor="campaign-domain">Dominio</Label><Select value={domain} onValueChange={setDomain}><SelectTrigger id="campaign-domain" className="h-12 w-full rounded-lg bg-background"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="cpt.cx">cpt.cx</SelectItem><SelectItem value="go.compacto.app">go.compacto.app</SelectItem></SelectContent></Select></div>
-              <div className="space-y-2"><Label htmlFor="campaign-count">Número de shortlinks</Label><Input id="campaign-count" type="number" min={1} max={available} step={1} value={count} onChange={e => setCount(e.target.value)} className="rounded-lg font-mono" /></div>
+              <div className="space-y-2"><Label htmlFor="campaign-count">Número de shortlinks</Label><Input id="campaign-count" type="number" min={1} max={available} step={1} value={count} onChange={e => { setCount(e.target.value); setError(""); }} className="rounded-lg font-mono" /></div>
             </div>
             <div className="flex items-start gap-3 border-l-2 border-primary pl-4"><Link2 className="mt-1 size-5 shrink-0 text-primary" /><div><p className="text-sm font-medium">{Number.isInteger(quantity) && quantity > 0 ? quantity.toLocaleString("es-CO") : "—"} enlaces por generar</p><p className="mt-1 text-xs text-muted-foreground">{available.toLocaleString("es-CO")} disponibles en tu plan</p></div></div>
             {error && <p role="alert" className="flex items-start gap-2 text-sm text-destructive"><AlertCircle className="size-4 shrink-0" />{error}</p>}
