@@ -1,8 +1,8 @@
 export type CampaignReportSearch = {
-  name?: string;
-  destination?: string;
-  domain?: string;
-  count?: number;
+  name?: string | undefined;
+  destination?: string | undefined;
+  domain?: string | undefined;
+  count?: number | undefined;
 };
 
 export function validateCampaignReportSearch(search: Record<string, unknown>): CampaignReportSearch {
