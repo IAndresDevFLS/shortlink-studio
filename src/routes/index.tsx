@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
   Contrast, Copy, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
-  Sparkles, Star, Sun, Zap,
+  Sparkles, Star, Sun, Target, Zap,
 } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
 import { CreateModal } from "@/components/create-modal";
@@ -96,6 +96,7 @@ function Dashboard() {
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
         <div className="flex items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/conversions" aria-label="Conversiones" title="Conversiones"><Target /> <span className="hidden lg:inline">Conversiones</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/campaigns" aria-label="Campañas" title="Campañas"><Layers /> <span className="hidden lg:inline">Campañas</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/api-keys"><KeyRound /> <span className="hidden lg:inline">API Keys</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/domains"><Globe /> <span className="hidden sm:inline">Dominios</span></Link></Button>
