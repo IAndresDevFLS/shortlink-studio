@@ -90,7 +90,7 @@ function Dashboard() {
   return (
     <div className="min-h-screen technical-grid">
       <a href="#contenido" className="skip-link">Saltar al contenido</a>
-      <header className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6">
+      <header className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2 rounded-full focus-visible:outline-2 focus-visible:outline-ring">
           <span className="grid size-8 place-items-center rounded-lg bg-ink text-ink-foreground"><Link2 className="size-4" aria-hidden /></span>
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
