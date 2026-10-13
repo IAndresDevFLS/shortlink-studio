@@ -7,11 +7,11 @@ export type CampaignReportSearch = {
 
 export function validateCampaignReportSearch(search: Record<string, unknown>): CampaignReportSearch {
   return {
-    name: typeof search.name === "string" ? search.name.slice(0, 120) : undefined,
-    destination: typeof search.destination === "string" ? search.destination.slice(0, 2048) : undefined,
-    domain: typeof search.domain === "string" ? search.domain.slice(0, 253) : undefined,
-    count: Number.isFinite(Number(search.count)) && Number(search.count) >= 1
-      ? Math.min(250, Math.floor(Number(search.count))) : undefined,
+    name: typeof search['name'] === "string" ? search['name'].slice(0, 120) : undefined,
+    destination: typeof search['destination'] === "string" ? search['destination'].slice(0, 2048) : undefined,
+    domain: typeof search['domain'] === "string" ? search['domain'].slice(0, 253) : undefined,
+    count: Number.isFinite(Number(search['count'])) && Number(search['count']) >= 1
+      ? Math.min(250, Math.floor(Number(search['count']))) : undefined,
   };
 }
 
