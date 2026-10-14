@@ -9,7 +9,7 @@ import { ClickTimeline, DeviceRing } from "@/components/detailed-report-charts";
 import { DEFAULT_REPORT_FILTERS, REPORT_LINKS, getReportEvents, rankEvents, reportSeries, type ReportFilters } from "@/lib/detailed-report";
 
 export const Route = createFileRoute("/detailed-report")({
-  validateSearch: (search: Record<string, unknown>): { link?: string } => ({ link: typeof search.link === "string" && REPORT_LINKS.some(link => link.slug === search.link) ? search.link : undefined }),
+  validateSearch: (search: Record<string, unknown>): { link?: string | undefined } => ({ link: typeof search['link'] === "string" && REPORT_LINKS.some(link => link.slug === search['link']) ? search['link'] : undefined }),
   head: () => ({ meta: [
     { title: "Reporte detallado de clics · Compacto" },
     { name: "description", content: "Analiza cada shortlink por fecha, dispositivo, ubicación y navegador con el reporte detallado de Compacto." },
@@ -75,7 +75,7 @@ function DetailedReportPage() {
         </div>{error && <p role="alert" id="report-error" className="mt-4 text-sm text-destructive">{error}</p>}</form>
       </section>
       {link && <section aria-label="Detalles del shortlink" className="flex flex-wrap justify-between gap-5 border-b border-border py-6">
-        <div className="min-w-0 flex-1"><h2 className="font-display text-xl font-semibold">{link.title}</h2><p className="mt-2 break-all text-xs text-muted-foreground">{link.destination}</p><div className="mt-4 flex flex-wrap items-center gap-2"><span className="flex items-center gap-2 font-mono text-sm text-primary"><Link2 className="size-4" />{link.domain}/{link.slug}</span><Button variant="ghost" size="icon" className="size-8 rounded-full text-muted-foreground" title="Copiar shortlink" aria-label="Copiar shortlink" onClick={copy}><Copy /></Button></div></div>
+        <div className="min-w-0 basis-full lg:flex-1 lg:basis-0"><h2 className="font-display text-xl font-semibold">{link.title}</h2><p className="mt-2 break-all text-xs text-muted-foreground">{link.destination}</p><div className="mt-4 flex flex-wrap items-center gap-2"><span className="flex items-center gap-2 font-mono text-sm text-primary"><Link2 className="size-4" />{link.domain}/{link.slug}</span><Button variant="ghost" size="icon" className="size-8 rounded-full text-muted-foreground" title="Copiar shortlink" aria-label="Copiar shortlink" onClick={copy}><Copy /></Button></div></div>
         <div className="flex flex-wrap items-center gap-4 text-xs"><span className="flex items-center gap-2 text-muted-foreground"><LockKeyhole className="size-4" />{link.protected ? "Con contraseña" : "Sin contraseña"}</span>{link.tags.map(tag => <span key={tag} className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-accent px-3 py-1 text-accent-foreground"><Tag className="size-3" />{tag}</span>)}</div>
       </section>}
       <section aria-label="Resumen del reporte" className="grid grid-cols-2 gap-x-5 gap-y-7 py-8 lg:grid-cols-4">{[

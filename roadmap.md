@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Reporte detallado: página independiente Compacto con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; datos demo y acceso desde Enlaces.
+- [x] Reporte detallado: /detailed-report con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; filtros, validación, CSV, tres temas, móvil y acceso desde Enlaces verificados con datos demo.
 
 - [x] Conversiones: vista independiente Compacto con filtros aplicados, resumen, tabla, orden global, CSV/PDF y navegación; temas, móvil, búsqueda, fechas y descargas verificados con datos demo.
 
