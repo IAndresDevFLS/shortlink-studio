@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Reporte detallado: /detailed-report con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; filtros, validación, CSV, tres temas, móvil y acceso desde Enlaces verificados con datos demo.
+
 - [x] Conversiones: vista independiente Compacto con filtros aplicados, resumen, tabla, orden global, CSV/PDF y navegación; temas, móvil, búsqueda, fechas y descargas verificados con datos demo.
 
 - [x] Reporte de campañas: página independiente con métricas, tasa de conversión, embudo y detalle por enlace; navegación desde Campañas, creación, búsqueda, paginación, CSV y tres temas verificados; datos demo.

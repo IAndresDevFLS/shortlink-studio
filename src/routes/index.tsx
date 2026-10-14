@@ -433,7 +433,7 @@ function Recent({ onQr }: { onQr: (u: string) => void }) {
                 <td><div className="flex justify-end gap-1">
                   <button onClick={() => copy(u)} aria-label={`Copiar ${u}`} className="grid size-8 place-items-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring">{copied === u ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}</button>
                   <button onClick={() => onQr(u)} aria-label={`QR de ${u}`} className="grid size-8 place-items-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"><QrCode className="size-4" /></button>
-                  <a href="#" aria-label={`Reporte de ${u}`} className="grid size-8 place-items-center rounded-full hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"><BarChart3 className="size-4" /></a>
+                  <Button asChild variant="ghost" size="icon" className="size-8 rounded-full"><Link to="/detailed-report" search={{ link: l.slug }} aria-label={`Reporte de ${u}`} title="Ver reporte detallado"><BarChart3 className="size-4" /></Link></Button>
                 </div></td>
               </tr>); })}
             {!rows.length && <tr><td colSpan={6} className="py-6 text-center text-muted-foreground">Sin resultados para “{q}”.</td></tr>}
