@@ -11,6 +11,8 @@
 
 ## Project architecture
 
+- Keep detailed click reporting at /detailed-report with validated shortlink search parameters and one browser-safe filtered event model for metrics, charts, rankings and CSV; why: the independent preview must stay internally consistent without implying live tracking.
+
 - Keep conversions at /conversions with client-side date/search filtering and sorting before pagination over a browser-safe demo event model; why: summaries and CSV/PDF exports must reflect the same complete filtered dataset without implying live tracking.
 
 - Keep dashboard analytics in an editorial full-width flow; why: the primary chart and shortlink table must remain the page's visual and operational focus.
