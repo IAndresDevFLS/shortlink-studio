@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Reporte detallado: página independiente Compacto con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; datos demo y acceso desde Enlaces.
+
 - [x] Conversiones: vista independiente Compacto con filtros aplicados, resumen, tabla, orden global, CSV/PDF y navegación; temas, móvil, búsqueda, fechas y descargas verificados con datos demo.
 
 - [x] Reporte de campañas: página independiente con métricas, tasa de conversión, embudo y detalle por enlace; navegación desde Campañas, creación, búsqueda, paginación, CSV y tres temas verificados; datos demo.
