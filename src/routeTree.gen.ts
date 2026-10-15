@@ -14,6 +14,7 @@ import { Route as ApiKeysRouteImport } from './routes/api-keys'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as ConversionsRouteImport } from './routes/conversions'
+import { Route as DataRetentionRouteImport } from './routes/data-retention'
 import { Route as DetailedReportRouteImport } from './routes/detailed-report'
 import { Route as DomainClickReportRouteImport } from './routes/domain-click-report'
 import { Route as DomainsRouteImport } from './routes/domains'
@@ -47,6 +48,11 @@ const CampaignsRoute = CampaignsRouteImport.update({
 const ConversionsRoute = ConversionsRouteImport.update({
   id: '/conversions',
   path: '/conversions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DataRetentionRoute = DataRetentionRouteImport.update({
+  id: '/data-retention',
+  path: '/data-retention',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DetailedReportRoute = DetailedReportRouteImport.update({
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsRoute
   '/conversions': typeof ConversionsRoute
+  '/data-retention': typeof DataRetentionRoute
   '/detailed-report': typeof DetailedReportRoute
   '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsRoute
   '/conversions': typeof ConversionsRoute
+  '/data-retention': typeof DataRetentionRoute
   '/detailed-report': typeof DetailedReportRoute
   '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/campaigns': typeof CampaignsRoute
   '/conversions': typeof ConversionsRoute
+  '/data-retention': typeof DataRetentionRoute
   '/detailed-report': typeof DetailedReportRoute
   '/domain-click-report': typeof DomainClickReportRoute
   '/domains': typeof DomainsRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns'
     | '/conversions'
+    | '/data-retention'
     | '/detailed-report'
     | '/domain-click-report'
     | '/domains'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns'
     | '/conversions'
+    | '/data-retention'
     | '/detailed-report'
     | '/domain-click-report'
     | '/domains'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/campaigns'
     | '/conversions'
+    | '/data-retention'
     | '/detailed-report'
     | '/domain-click-report'
     | '/domains'
@@ -202,6 +214,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CampaignsRoute: typeof CampaignsRoute
   ConversionsRoute: typeof ConversionsRoute
+  DataRetentionRoute: typeof DataRetentionRoute
   DetailedReportRoute: typeof DetailedReportRoute
   DomainClickReportRoute: typeof DomainClickReportRoute
   DomainsRoute: typeof DomainsRoute
@@ -248,6 +261,13 @@ declare module '@tanstack/react-router' {
       path: '/conversions'
       fullPath: '/conversions'
       preLoaderRoute: typeof ConversionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/data-retention': {
+      id: '/data-retention'
+      path: '/data-retention'
+      fullPath: '/data-retention'
+      preLoaderRoute: typeof DataRetentionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/detailed-report': {
@@ -322,6 +342,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CampaignsRoute: CampaignsRoute,
   ConversionsRoute: ConversionsRoute,
+  DataRetentionRoute: DataRetentionRoute,
   DetailedReportRoute: DetailedReportRoute,
   DomainClickReportRoute: DomainClickReportRoute,
   DomainsRoute: DomainsRoute,
