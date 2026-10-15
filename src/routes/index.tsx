@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
   Contrast, Copy, Database, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
-  Sparkles, Star, Sun, Target, Zap,
+  Sparkles, Star, Sun, Target, UserRound, Zap,
 } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
 import { CreateModal } from "@/components/create-modal";
@@ -96,6 +96,7 @@ function Dashboard() {
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
         <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/profile" aria-label="Mi perfil" title="Mi perfil"><UserRound /> <span className="hidden lg:inline">Perfil</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/data-retention" aria-label="Retención de datos" title="Retención de datos"><Database /> <span className="hidden lg:inline">Retención</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/conversions" aria-label="Conversiones" title="Conversiones"><Target /> <span className="hidden lg:inline">Conversiones</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/campaigns" aria-label="Campañas" title="Campañas"><Layers /> <span className="hidden lg:inline">Campañas</span></Link></Button>

@@ -1,5 +1,7 @@
 # Roadmap
 
+- [ ] Perfil: vista independiente /profile con nombre, apellido, zona horaria, guardado temporal, confirmación de cancelación y tres temas; verificar navegación y móvil.
+
 - [x] Retención de datos: /data-retention con política Prime, resumen por categoría e historial de las capturas; totales, acceso desde Enlaces, gestión del plan, tres temas y lectura móvil verificados; datos de demostración, sin eliminación real.
 
 - [x] Reporte detallado: /detailed-report con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; filtros, validación, CSV, tres temas, móvil y acceso desde Enlaces verificados con datos demo.
