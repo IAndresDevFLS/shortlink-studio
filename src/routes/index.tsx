@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
-  Contrast, Copy, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
+  Contrast, Copy, Database, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
   Sparkles, Star, Sun, Target, Zap,
 } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
@@ -95,7 +95,8 @@ function Dashboard() {
           <span className="grid size-8 place-items-center rounded-lg bg-ink text-ink-foreground"><Link2 className="size-4" aria-hidden /></span>
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/data-retention" aria-label="Retención de datos" title="Retención de datos"><Database /> <span className="hidden lg:inline">Retención</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/conversions" aria-label="Conversiones" title="Conversiones"><Target /> <span className="hidden lg:inline">Conversiones</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/campaigns" aria-label="Campañas" title="Campañas"><Layers /> <span className="hidden lg:inline">Campañas</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/api-keys"><KeyRound /> <span className="hidden lg:inline">API Keys</span></Link></Button>

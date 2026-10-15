@@ -1,5 +1,7 @@
 # Roadmap
 
+- [x] Retención de datos: /data-retention con política Prime, resumen por categoría e historial de las capturas; totales, acceso desde Enlaces, gestión del plan, tres temas y lectura móvil verificados; datos de demostración, sin eliminación real.
+
 - [x] Reporte detallado: /detailed-report con selección de shortlink, fechas, métricas, evolución, audiencia, rankings y registro paginado; filtros, validación, CSV, tres temas, móvil y acceso desde Enlaces verificados con datos demo.
 
 - [x] Conversiones: vista independiente Compacto con filtros aplicados, resumen, tabla, orden global, CSV/PDF y navegación; temas, móvil, búsqueda, fechas y descargas verificados con datos demo.
