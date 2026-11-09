@@ -21,6 +21,7 @@ import { Route as DomainsRouteImport } from './routes/domains'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OtpDashboardRouteImport } from './routes/otp-dashboard'
+import { Route as OtpReportRouteImport } from './routes/otp-report'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -86,6 +87,11 @@ const OtpDashboardRoute = OtpDashboardRouteImport.update({
   path: '/otp-dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OtpReportRoute = OtpReportRouteImport.update({
+  id: '/otp-report',
+  path: '/otp-report',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/otp-dashboard': typeof OtpDashboardRoute
+  '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/otp-report'
     | '/pricing'
     | '/profile'
     | '/register'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/otp-report'
     | '/pricing'
     | '/profile'
     | '/register'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/otp-dashboard'
+    | '/otp-report'
     | '/pricing'
     | '/profile'
     | '/register'
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   OtpDashboardRoute: typeof OtpDashboardRoute
+  OtpReportRoute: typeof OtpReportRoute
   PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
@@ -325,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof OtpDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/otp-report': {
+      id: '/otp-report'
+      path: '/otp-report'
+      fullPath: '/otp-report'
+      preLoaderRoute: typeof OtpReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -369,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   OtpDashboardRoute: OtpDashboardRoute,
+  OtpReportRoute: OtpReportRoute,
   PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,

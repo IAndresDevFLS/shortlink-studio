@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
-  Contrast, Copy, Database, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
+  Contrast, Copy, Database, ShieldCheck, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
   Sparkles, Star, Sun, Target, UserRound, Zap,
 } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
