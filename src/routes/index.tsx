@@ -98,6 +98,7 @@ function Dashboard() {
         <div className="flex flex-wrap items-center gap-2">
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/profile" aria-label="Mi perfil" title="Mi perfil"><UserRound /> <span className="hidden lg:inline">Perfil</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/data-retention" aria-label="Retención de datos" title="Retención de datos"><Database /> <span className="hidden lg:inline">Retención</span></Link></Button>
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/otp-report" aria-label="Reporte OTP" title="Reporte OTP"><ShieldCheck /> <span className="hidden lg:inline">OTP</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/conversions" aria-label="Conversiones" title="Conversiones"><Target /> <span className="hidden lg:inline">Conversiones</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/campaigns" aria-label="Campañas" title="Campañas"><Layers /> <span className="hidden lg:inline">Campañas</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/api-keys"><KeyRound /> <span className="hidden lg:inline">API Keys</span></Link></Button>
