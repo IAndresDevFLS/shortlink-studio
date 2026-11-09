@@ -25,3 +25,4 @@
 - Keep domain click reporting at /domain-click-report, linked from /domains, with applied domain/date filters over preview data; why: the daily report can be evaluated without implying live traffic collection.
 - Keep campaign management at /campaigns with accessible dialogs, in-memory preview data and client-side ZIP exports of demo CSV links; why: the complete presentation can be evaluated without implying real redirect provisioning or traffic collection.
 - Keep campaign reports at /campaign-report/$campaignId with browser-safe preview data and validated search parameters for newly created campaigns; why: each campaign has an independent report without implying live measurement or persistence.
+- Keep OTP reporting at /otp-report with channel/date filters over a browser-safe demo model; why: consistent with other report previews without implying real OTP delivery.
