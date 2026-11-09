@@ -18,7 +18,7 @@ export const OTP_RECORDS: OtpRecord[] = (Object.keys(counts) as OtpChannel[]).fl
   Array.from({ length: counts[channel] }, (_, i) => {
     const seed = ci * 100 + i;
     const created = Date.UTC(2026, 10, 4 - Math.floor(i / 8) + (ci ? 2 : 0), 14 - (i % 8), 9 - i, 16 - i % 7) ;
-    const status: OtpStatus = channel === "email" && i < 8 ? (["verified", "expired", "expired", "verified", "verified", "expired", "expired", "verified"] as const)[i] : i % 9 === 4 ? "pending" : i % 3 === 0 ? "expired" : "verified";
+    const status: OtpStatus = channel === "email" && i < 8 ? (["verified", "expired", "expired", "verified", "verified", "expired", "expired", "verified"] as const)[i]! : i % 9 === 4 ? "pending" : i % 3 === 0 ? "expired" : "verified";
     return {
       reference: channel === "email" && i < refs.length ? refs[i]! : uuid(seed + 7), channel,
       created: iso(created), sent: iso(created + 1000 + (i % 5) * 1000),
