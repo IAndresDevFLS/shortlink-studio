@@ -26,3 +26,4 @@
 - Keep campaign management at /campaigns with accessible dialogs, in-memory preview data and client-side ZIP exports of demo CSV links; why: the complete presentation can be evaluated without implying real redirect provisioning or traffic collection.
 - Keep campaign reports at /campaign-report/$campaignId with browser-safe preview data and validated search parameters for newly created campaigns; why: each campaign has an independent report without implying live measurement or persistence.
 - Keep OTP reporting at /otp-report with channel/date filters over a browser-safe demo model; why: consistent with other report previews without implying real OTP delivery.
+- Keep sending providers at /providers with in-memory preview data and inline create/edit/delete dialogs; why: provider presentation can be evaluated without implying real delivery configuration.
