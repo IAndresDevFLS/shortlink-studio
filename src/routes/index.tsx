@@ -4,7 +4,7 @@ import {
   AlertTriangle, ArrowDownUp, ArrowDownRight, ArrowUpRight, BarChart3, CalendarClock, Check, ChevronLeft, ChevronRight,
   Contrast, Copy, Database, ShieldCheck, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
   Sparkles, Star, Sun, Target, UserRound, Zap,
-} from "lucide-react";
+, ServerCog } from "lucide-react";
 import { LayoutTemplate } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
 import { CreateModal } from "@/components/create-modal";
