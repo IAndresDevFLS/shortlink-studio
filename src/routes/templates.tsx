@@ -87,8 +87,8 @@ function TemplatesPage() {
       <section aria-roledescription="carrusel" aria-label="Plantillas" className="relative mt-10">
         <div className="pointer-events-none absolute left-1/2 top-1/2 -z-0 size-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/20 blur-3xl" />
         <div className="relative mx-auto h-[470px] max-w-sm [perspective:1400px]"
-          onTouchStart={e => { touch.current = e.touches[0].clientX; }}
-          onTouchEnd={e => { if (touch.current === null) return; const d = e.changedTouches[0].clientX - touch.current; if (Math.abs(d) > 40) go(d < 0 ? 1 : -1); touch.current = null; }}>
+          onTouchStart={e => { touch.current = e.touches[0]?.clientX ?? 0; }}
+          onTouchEnd={e => { if (touch.current === null) return; const d = (e.changedTouches[0]?.clientX ?? 0) - touch.current; if (Math.abs(d) > 40) go(d < 0 ? 1 : -1); touch.current = null; }}>
           <div className="relative h-full [transform-style:preserve-3d]">
             {templates.map((t, i) => {
               const isActive = i === active;
