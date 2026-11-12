@@ -5,7 +5,7 @@ import {
   Contrast, Copy, Database, ShieldCheck, Globe, KeyRound, Layers, Link2, Lock, MousePointerClick, Moon, Plus, QrCode, RotateCcw, Search, SlidersHorizontal,
   Sparkles, Star, Sun, Target, UserRound, Zap,
 } from "lucide-react";
-import { LayoutTemplate } from "lucide-react";
+import { LayoutTemplate, ServerCog } from "lucide-react";
 import { WelcomeModal, hasSeenWelcome, markWelcomeSeen } from "@/components/welcome-modal";
 import { CreateModal } from "@/components/create-modal";
 import { QrModal } from "@/components/qr-modal";
@@ -97,6 +97,7 @@ function Dashboard() {
           <span className="font-display text-lg font-bold text-foreground">Compacto</span>
         </Link>
         <div className="flex flex-wrap items-center gap-2">
+          <Button asChild variant="outline" className="rounded-full px-3"><Link to="/providers" aria-label="Proveedores" title="Proveedores"><ServerCog /> <span className="hidden lg:inline">Proveedores</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/templates" aria-label="Plantillas" title="Plantillas"><LayoutTemplate /> <span className="hidden lg:inline">Plantillas</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/profile" aria-label="Mi perfil" title="Mi perfil"><UserRound /> <span className="hidden lg:inline">Perfil</span></Link></Button>
           <Button asChild variant="outline" className="rounded-full px-3"><Link to="/data-retention" aria-label="Retención de datos" title="Retención de datos"><Database /> <span className="hidden lg:inline">Retención</span></Link></Button>

@@ -24,6 +24,7 @@ import { Route as OtpDashboardRouteImport } from './routes/otp-dashboard'
 import { Route as OtpReportRouteImport } from './routes/otp-report'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ProvidersRouteImport } from './routes/providers'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as CampaignReportCampaignIdRouteImport } from './routes/campaign-report.$campaignId'
@@ -103,6 +104,11 @@ const ProfileRoute = ProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProvidersRoute = ProvidersRouteImport.update({
+  id: '/providers',
+  path: '/providers',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
+  '/providers': typeof ProvidersRoute
   '/register': typeof RegisterRoute
   '/templates': typeof TemplatesRoute
   '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
+  '/providers': typeof ProvidersRoute
   '/register': typeof RegisterRoute
   '/templates': typeof TemplatesRoute
   '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/otp-report': typeof OtpReportRoute
   '/pricing': typeof PricingRoute
   '/profile': typeof ProfileRoute
+  '/providers': typeof ProvidersRoute
   '/register': typeof RegisterRoute
   '/templates': typeof TemplatesRoute
   '/campaign-report/$campaignId': typeof CampaignReportCampaignIdRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/otp-report'
     | '/pricing'
     | '/profile'
+    | '/providers'
     | '/register'
     | '/templates'
     | '/campaign-report/$campaignId'
@@ -219,6 +229,7 @@ export interface FileRouteTypes {
     | '/otp-report'
     | '/pricing'
     | '/profile'
+    | '/providers'
     | '/register'
     | '/templates'
     | '/campaign-report/$campaignId'
@@ -239,6 +250,7 @@ export interface FileRouteTypes {
     | '/otp-report'
     | '/pricing'
     | '/profile'
+    | '/providers'
     | '/register'
     | '/templates'
     | '/campaign-report/$campaignId'
@@ -260,6 +272,7 @@ export interface RootRouteChildren {
   OtpReportRoute: typeof OtpReportRoute
   PricingRoute: typeof PricingRoute
   ProfileRoute: typeof ProfileRoute
+  ProvidersRoute: typeof ProvidersRoute
   RegisterRoute: typeof RegisterRoute
   TemplatesRoute: typeof TemplatesRoute
   CampaignReportCampaignIdRoute: typeof CampaignReportCampaignIdRoute
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/providers': {
+      id: '/providers'
+      path: '/providers'
+      fullPath: '/providers'
+      preLoaderRoute: typeof ProvidersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -412,6 +432,7 @@ const rootRouteChildren: RootRouteChildren = {
   OtpReportRoute: OtpReportRoute,
   PricingRoute: PricingRoute,
   ProfileRoute: ProfileRoute,
+  ProvidersRoute: ProvidersRoute,
   RegisterRoute: RegisterRoute,
   TemplatesRoute: TemplatesRoute,
   CampaignReportCampaignIdRoute: CampaignReportCampaignIdRoute,
