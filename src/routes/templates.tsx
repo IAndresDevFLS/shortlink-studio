@@ -65,7 +65,7 @@ function TemplatesPage() {
       pointerEvents: abs > 1 ? "none" : "auto",
     };
   };
-  const current = templates[active];
+  const current = templates[active] ?? templates[0]!;
 
   return <div className="min-h-screen dot-grid overflow-x-hidden text-foreground">
     <a href="#templates-content" className="skip-link">Saltar al contenido</a>
